@@ -1,0 +1,3 @@
+[submodule "wajik-anime-api"]
+	path = wajik-anime-api
+	url = https://github.com/wajik45/wajik-anime-api.git
