@@ -11,42 +11,44 @@
   <%- include('navbar') %>
   <div class="container">
     <h1 class="mt-4">Anime by Genre: <%= genre %></h1>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Poster</th>
-          <th>Judul</th>
-          <th>Rating</th>
-          <th>Studio</th>
-          <th>Musim</th>
-          <th>Genre</th>
-          <th>Jumlah Episode</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% animes.forEach(anime => { %>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <td><img src="<%= anime.poster %>" alt="<%= anime.judul %>" class="img-fluid" style="max-width: 100px;"></td>
-            <td><%= anime.judul %></td>
-            <td><%= anime.rating %></td>
-            <td><%= anime.studio %></td>
-            <td><%= anime.musim %></td>
-            <td>
-              <ul>
-                <% anime.genres.forEach(genre => { %>
-                  <li><%= genre.judul %></li>
-                <% }) %>
-              </ul>
-            </td>
-            <td><%= anime.jumlahEpisode %></td>
-            <td>
-              <a href="/anime/<%= anime.slug %>" class="btn btn-primary btn-sm">View</a>
-            </td>
+            <th>Poster</th>
+            <th>Judul</th>
+            <th>Rating</th>
+            <th>Studio</th>
+            <th>Musim</th>
+            <th>Genre</th>
+            <th>Jumlah Episode</th>
+            <th>Action</th>
           </tr>
-        <% }) %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% animes.forEach(anime => { %>
+            <tr>
+              <td><img src="<%= anime.poster %>" alt="<%= anime.judul %>" class="img-fluid" style="max-width: 100px;"></td>
+              <td><%= anime.judul %></td>
+              <td><%= anime.rating %></td>
+              <td><%= anime.studio %></td>
+              <td><%= anime.musim %></td>
+              <td>
+                <ul>
+                  <% anime.genres.forEach(genre => { %>
+                    <li><%= genre.judul %></li>
+                  <% }) %>
+                </ul>
+              </td>
+              <td><%= anime.jumlahEpisode %></td>
+              <td>
+                <a href="/anime/<%= anime.slug %>" class="btn btn-primary btn-sm">View</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
     <!-- Pagination -->
     <nav aria-label="Anime list pagination">
       <ul class="pagination justify-content-center">
