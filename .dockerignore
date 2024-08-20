@@ -1,0 +1,23 @@
+# Ignore node_modules directories
+node_modules
+
+# Ignore Docker-related files and directories
+docker-compose.yaml
+dockerfiles
+
+# Ignore OS-specific files
+.DS_Store
+
+# Ignore Git-related files and directories
+.git
+.gitignore
+README.md
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+
+# Ignore any other unnecessary files or directories
+wajik-anime-api
