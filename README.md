@@ -1,6 +1,6 @@
 # ZANNIME 
 
-ZANNIME adalah antarmuka web yang sederhana untuk [wajik-anime-api](https://github.com/wajik45/wajik-anime-api/), yang bertujuan untuk memudahkan user dalam streaming dan mengunduh anime dengan subtitle Bahasa Indonesia.
+ZANNIME adalah antarmuka web sederhana untuk [wajik-anime-api](https://github.com/wajik45/wajik-anime-api/), yang bertujuan untuk memudahkan user dalam streaming dan mengunduh anime dengan subtitle Bahasa Indonesia.
 
 ## Daftar Isi
 
@@ -15,7 +15,6 @@ ZANNIME adalah antarmuka web yang sederhana untuk [wajik-anime-api](https://gith
 Sebelum memulai, pastikan Anda telah menginstal:
 
 - [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Instalasi
 
@@ -32,14 +31,14 @@ Sebelum memulai, pastikan Anda telah menginstal:
 
 3. **Build Image Docker:**
    ```sh
-   docker-compose build
+   docker compose build
    ```
 
 ## Penggunaan
 
 1. **Jalankan layanan:**
    ```sh
-   docker-compose up -d
+   docker compose up -d
    ```
 
 2. **Akses aplikasi:**
@@ -47,7 +46,7 @@ Sebelum memulai, pastikan Anda telah menginstal:
 
 3. **Hentikan layanan:**
    ```sh
-   docker-compose down
+   docker compose down
    ```
 
 ## Kontribusi
