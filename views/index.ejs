@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZANNIME</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('navbar') %>
+  <div class="container">
+    <h1 class="mt-4">On Going Anime</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Poster</th>
+          <th>Judul</th>
+          <th>Hari Rilis</th>
+          <th>Tanggal Rilis Terbaru</th>
+          <th>Episode Terbaru</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% animes.forEach(anime => { %>
+          <tr>
+            <td><img src="<%= anime.poster %>" alt="<%= anime.judul %>" class="img-fluid" style="max-width: 100px;"></td>
+            <td><a href="/anime/<%= anime.slug %>"><%= anime.judul %></a></td>
+            <td><%= anime.hariRilis %></td>
+            <td><%= anime.tanggalRilisTerbaru %></td>
+            <td><%= anime.episodeTerbaru %></td>
+            <td>
+              <a href="/anime/<%= anime.slug %>" class="btn btn-primary btn-sm">View</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <!-- Pagination -->
+    <nav aria-label="Anime list pagination">
+      <ul class="pagination justify-content-center">
+        <li class="page-item <%= !pagination.prevPage ? 'disabled' : '' %>">
+          <a class="page-link" href="?page=<%= pagination.prevPage %>">Previous</a>
+        </li>
+        <%
+          const maxPages = 5;
+          const halfMax = Math.floor(maxPages / 2);
+          let startPage = Math.max(1, pagination.currentPage - halfMax);
+          let endPage = Math.min(pagination.totalPages, startPage + maxPages - 1);
+          if (endPage - startPage < maxPages - 1) {
+            startPage = Math.max(1, endPage - maxPages + 1);
+          }
+          for (let i = startPage; i <= endPage; i++) {
+        %>
+          <li class="page-item <%= pagination.currentPage === i ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+          </li>
+        <% } %>
+        <li class="page-item <%= !pagination.nextPage ? 'disabled' : '' %>">
+          <a class="page-link" href="?page=<%= pagination.nextPage %>">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <%- include('footer') %>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

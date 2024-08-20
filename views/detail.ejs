@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= anime.judul %> - ZANNIME</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('navbar') %>
+  <div class="container">
+    <h1 class="mt-4"><%= anime.judul %></h1>
+    <div class="row">
+      <div class="col-md-4">
+        <img src="<%= anime.poster %>" alt="<%= anime.judul %>" class="img-fluid">
+      </div>
+      <div class="col-md-8">
+        <p><strong>Japanese:</strong> <%= anime.japanese %></p>
+        <p><strong>Score:</strong> <%= anime.skor %></p>
+        <p><strong>Producer:</strong> <%= anime.produser %></p>
+        <p><strong>Type:</strong> <%= anime.tipe %></p>
+        <p><strong>Status:</strong> <%= anime.status %></p>
+        <p><strong>Total Episodes:</strong> <%= anime.totalEpisode %></p>
+        <p><strong>Duration:</strong> <%= anime.durasi %></p>
+        <p><strong>Release Date:</strong> <%= anime.tanggalRilis %></p>
+        <p><strong>Studio:</strong> <%= anime.studio %></p>
+        <p><strong>Genres:</strong>
+          <ul>
+            <% anime.genres.forEach(genre => { %>
+              <li><a href="<%= genre.otakudesuUrl %>" target="_blank"><%= genre.judul %></a></li>
+            <% }) %>
+          </ul>
+        </p>
+        <p><strong>Synopsis:</strong> <%= anime.sinopsis.join(' ') %></p>
+      </div>
+    </div>
+    <h2 class="mt-4">Episodes</h2>
+    <form action="/episode" method="get" class="mb-4">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Episode</th>
+            <th>Release Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% anime.episodeList.forEach(episode => { %>
+            <tr>
+              <td><%= episode.judul %></td>
+              <td><%= episode.tanggalRilis %></td>
+              <td>
+                <button type="submit" name="slug" value="<%= episode.slug %>" class="btn btn-primary btn-sm">View</button>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <%- include('footer') %>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
