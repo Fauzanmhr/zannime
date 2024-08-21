@@ -28,7 +28,7 @@
         <p><strong>Genres:</strong>
           <ul>
             <% anime.genres.forEach(genre => { %>
-              <li><a href="<%= genre.otakudesuUrl %>" target="_blank"><%= genre.judul %></a></li>
+              <li><a href="/genres/<%= genre.slug %>"><%= genre.judul %></a></li>
             <% }) %>
           </ul>
         </p>
