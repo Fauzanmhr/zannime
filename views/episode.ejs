@@ -13,6 +13,23 @@
     <h1 class="mt-4"><%= episode.judul %></h1>
     <div class="row">
       <div class="col-md-12">
+        <div class="ratio ratio-16x9 mb-4">
+          <iframe id="streaming-iframe" src="<%= episode.streamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
+        </div>
+        <div class="mb-4">
+          <select id="streaming-source" class="form-select">
+            <option value="<%= episode.streamingUrl %>">Default Source</option>
+            <% episode.downloadUrl.forEach(quality => { %>
+              <% if ((quality.kualitas === 'Mp4_720p') || (quality.kualitas === 'Mp4_1080p') || (quality.kualitas === 'MKV_1080p') || (quality.kualitas === '720p') || (quality.kualitas === '1080p')) { %>
+                <% quality.urls.forEach(url => { %>
+                  <% if ( (url.judul === 'Acefile') || (url.judul === 'Pdrain') || (url.judul === 'PDrain') || (url.judul === 'KFiles') || (url.judul === 'Kraken')) { %>
+                    <option value="<%= url.url %>"><%= url.judul %> <%= quality.kualitas %></option>
+                  <% } %>
+                <% }) %>
+              <% } %>
+            <% }) %>
+          </select>
+        </div>
         <div class="d-flex justify-content-between mb-4">
           <% if (episode.episodeSebelumnya) { %>
             <a href="/episode?slug=<%= episode.episodeSebelumnya.slug %>" class="btn btn-primary">Previous Episode</a>
@@ -25,7 +42,6 @@
             <span class="btn btn-secondary disabled">Next Episode</span>
           <% } %>
         </div>
-        <p><strong>Streaming URL:</strong> <a href="<%= episode.streamingUrl %>" target="_blank">Watch Now</a></p>
         <h2 class="mt-4">Download Links</h2>
         <table class="table table-striped">
           <thead>
@@ -57,5 +73,37 @@
   <%- include('footer') %>
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    async function decodeShortlink(shortlink) {
+      try {
+        const response = await fetch(`/decode-shortlink?url=${encodeURIComponent(shortlink)}`);
+        const decodedUrl = await response.text();
+        return decodedUrl;
+      } catch (error) {
+        return shortlink; // Return the original shortlink if decoding fails
+      }
+    }
+
+    function formatUrlForEmbedding(url) {
+      if (url.includes('krakenfiles.com')) {
+        const fileId = url.split('/').slice(-2, -1)[0];
+        return `https://krakenfiles.com/embed-video/${fileId}`;
+      } else if (url.includes('pixeldrain.com')) {
+        const fileId = url.split('/').pop();
+        return `https://pixeldrain.com/u/${fileId}?embed`;
+      } else if (url.includes('acefile.co')) {
+        const fileId = url.split('/f/')[1].split('/')[0];
+        return `https://acefile.co/player/${fileId}`;
+      }
+      return url; // Return the original URL if no specific format is found
+    }
+
+    document.getElementById('streaming-source').addEventListener('change', async function() {
+      const selectedUrl = this.value;
+      const decodedUrl = await decodeShortlink(selectedUrl);
+      const formattedUrl = formatUrlForEmbedding(decodedUrl);
+      document.getElementById('streaming-iframe').src = formattedUrl;
+    });
+  </script>
 </body>
 </html>

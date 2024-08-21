@@ -1,6 +1,7 @@
-const express = require('express');
-const axios = require('axios');
-require('dotenv').config();
+import express from 'express';
+import axios from 'axios';
+import fetch from 'node-fetch'; // Update this line to use import
+import 'dotenv/config'; // Update this line to use import
 
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default to 3000
@@ -141,6 +142,17 @@ app.get('/genres/:slug', async (req, res) => {
   } catch (error) {
     console.error('Error fetching anime by genre:', error);
     res.status(500).send('Error fetching anime by genre');
+  }
+});
+
+// Route to decode shortlink
+app.get('/decode-shortlink', async (req, res) => {
+  const shortlink = req.query.url;
+  try {
+    const response = await fetch(shortlink, { method: 'HEAD', redirect: 'follow' });
+    res.send(response.url);
+  } catch (error) {
+    res.status(500).send('Error decoding shortlink');
   }
 });
 
