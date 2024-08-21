@@ -1,5 +1,4 @@
-import axios from 'axios';
-import fetch from 'node-fetch'; // Update this line to use import
+import ky from 'ky';
 import express from 'express';
 import 'dotenv/config';
 import path from 'path';
@@ -27,8 +26,8 @@ let allAnimeData = [];
 // Fetch all anime data from API and store in memory
 const fetchAllAnimeData = async () => {
   try {
-    const response = await axios.get(`${process.env.API_URL}/otakudesu/anime`);
-    const animeData = response.data.data;
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/anime`).json();
+    const animeData = response.data;
     allAnimeData = animeData.flatMap(item => item.anime);
   } catch (error) {
     console.error('Error fetching all anime data:', error);
@@ -42,8 +41,8 @@ fetchAllAnimeData();
 app.get('/', async (req, res) => {
   const page = req.query.page || 1;
   try {
-    const response = await axios.get(`${process.env.API_URL}/otakudesu/ongoing?page=${page}`);
-    const { data, pagination } = response.data;
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/ongoing?page=${page}`).json();
+    const { data, pagination } = response;
     res.render('index', { animes: data, pagination });
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -85,8 +84,8 @@ app.get('/search', (req, res) => {
 app.get('/anime/:slug', async (req, res) => {
   const slug = req.params.slug;
   try {
-    const response = await axios.get(`${process.env.API_URL}/otakudesu/anime/${slug}`);
-    const anime = response.data.data;
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/anime/${slug}`).json();
+    const anime = response.data;
     res.render('detail', { anime });
   } catch (error) {
     console.error('Error fetching anime details:', error);
@@ -101,8 +100,8 @@ app.get('/episode', async (req, res) => {
     return res.redirect('/');
   }
   try {
-    const response = await axios.get(`${process.env.API_URL}/otakudesu/episode/${slug}`);
-    const episode = response.data.data;
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/episode/${slug}`).json();
+    const episode = response.data;
     res.render('episode', { episode });
   } catch (error) {
     console.error('Error fetching episode details:', error);
@@ -134,8 +133,8 @@ app.get('/all-anime', async (req, res) => {
 // Genres route
 app.get('/genres', async (req, res) => {
   try {
-    const response = await axios.get(`${process.env.API_URL}/otakudesu/genres`);
-    const genres = response.data.data;
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/genres`).json();
+    const genres = response.data;
     res.render('genres', { genres });
   } catch (error) {
     console.error('Error fetching genres:', error);
@@ -149,8 +148,8 @@ app.get('/genres/:slug', async (req, res) => {
   const page = req.query.page || 1;
 
   try {
-    const response = await axios.get(`${process.env.API_URL}/otakudesu/genres/${slug}?page=${page}`);
-    const { data, pagination } = response.data;
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/genres/${slug}?page=${page}`).json();
+    const { data, pagination } = response;
     res.render('genre-anime', { animes: data, pagination, genre: slug });
   } catch (error) {
     console.error('Error fetching anime by genre:', error);
@@ -162,7 +161,7 @@ app.get('/genres/:slug', async (req, res) => {
 app.get('/decode-shortlink', async (req, res) => {
   const shortlink = req.query.url;
   try {
-    const response = await fetch(shortlink, { method: 'HEAD', redirect: 'follow' });
+    const response = await ky.get(shortlink, { redirect: 'follow' });
     res.send(response.url);
   } catch (error) {
     res.status(500).send('Error decoding shortlink');
