@@ -161,15 +161,10 @@ app.get('/genres/:slug', async (req, res) => {
 app.get('/decode-shortlink', async (req, res) => {
   const shortlink = req.query.url;
   try {
-    const response = await ky.get(shortlink, { redirect: 'follow' });
+    const response = await fetch(shortlink, { method: 'HEAD', redirect: 'follow' });
     res.send(response.url);
-  } catch (getError) {
-    try {
-      const headResponse = await ky.head(shortlink, { redirect: 'follow' });
-      res.send(headResponse.url);
-    } catch (headError) {
-      res.status(500).send('Error decoding shortlink');
-    }
+  } catch (error) {
+    res.status(500).send('Error decoding shortlink');
   }
 });
 
