@@ -91,9 +91,6 @@
       } else if (url.includes('pixeldrain.com')) {
         const fileId = url.split('/').pop();
         return `https://pixeldrain.com/u/${fileId}?embed`;
-      } else if (url.includes('acefile.co')) {
-        const fileId = url.split('/f/')[1].split('/')[0];
-        return `https://acefile.co/player/${fileId}`;
       }
   return url; // Return the original URL if no specific format is found
 }
