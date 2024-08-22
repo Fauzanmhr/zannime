@@ -5,40 +5,48 @@ on:
     branches: [ "main", "dev" ]
 
 jobs:
-  build:
+  deploy-main:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: main
     steps:
-    - name: deploy to vps using ssh
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.HOST }}
-        port: 22
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        key: ${{ secrets.PRIVATE_KEY }}
-        script: |
-                cd ~/.apps/zannime
-                git pull
-                git status
-                sudo docker compose -f docker-compose.yaml build
-                sudo docker compose -f docker-compose.yaml up -d
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-  dev-build:
-    runs-on: ubuntu-latest
-    environment: main
-    steps:
-    - name: deploy to vps using ssh for dev
+    - name: Deploy to VPS using SSH for main
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
         port: 22
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        passphrase: ${{ secrets.PASSPHRASE }}
         key: ${{ secrets.PRIVATE_KEY }}
         script: |
-                cd ~/.apps/zannime-dev
-                git pull
-                git status
-                sudo docker compose -f docker-compose-dev.yaml build
-                sudo docker compose -f docker-compose-dev.yaml up -d
+          cd ~/.apps/zannime
+          git pull
+          git status
+          sudo docker compose -f docker-compose.yaml build
+          sudo docker compose -f docker-compose.yaml up -d
+
+  deploy-dev:
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    environment: main
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Deploy to VPS using SSH for dev
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        port: 22
+        username: ${{ secrets.USERNAME }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        script: |
+          cd ~/.apps/zannime-dev
+          git pull
+          git status
+          sudo docker compose -f docker-compose-dev.yaml build
+          sudo docker compose -f docker-compose-dev.yaml up -d
