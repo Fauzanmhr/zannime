@@ -3,6 +3,8 @@ import express from 'express';
 import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import * as https from "node:https";
+import http from "http";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -157,17 +159,50 @@ app.get('/genres/:slug', async (req, res) => {
   }
 });
 
+// Function to fetch the shortlink and capture the initial redirection URL
+const fetchShortlink = (url) => {
+  return new Promise((resolve, reject) => {
+    const protocol = url.startsWith('https') ? https : http;
+
+    const request = protocol.get(url, (response) => {
+      if (response.statusCode >= 300 && response.statusCode < 400) {
+        const location = response.headers.location;
+        if (location) {
+          return resolve(location);
+        }
+      }
+      resolve(null);
+    });
+
+    request.on('error', (error) => {
+      reject(error);
+    });
+
+    request.end();
+  });
+};
+
 // Route to decode shortlink
 app.get('/decode-shortlink', async (req, res) => {
   const shortlink = req.query.url;
+
+  if (!shortlink) {
+    return res.status(400).send('URL parameter is required');
+  }
+
   try {
-    const response = await fetch(shortlink, { method: 'HEAD', redirect: 'follow' });
-    res.send(response.url);
+    const redirectionUrl = await fetchShortlink(shortlink);
+    if (redirectionUrl) {
+      return res.send(redirectionUrl);
+    }
+    res.status(404).send('No redirection found');
   } catch (error) {
+    console.error('Error decoding shortlink:', error);
     res.status(500).send('Error decoding shortlink');
   }
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
