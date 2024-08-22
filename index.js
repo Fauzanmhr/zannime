@@ -38,6 +38,9 @@ const fetchAllAnimeData = async () => {
 // Fetch data on server start
 fetchAllAnimeData();
 
+// Periodically update all anime data (every 60 minutes)
+setInterval(fetchAllAnimeData, 60 * 60 * 1000);
+
 // Home route to list content with pagination
 app.get('/', async (req, res) => {
   const page = req.query.page || 1;
