@@ -11,6 +11,7 @@ dockerfiles
 # Ignore Git-related files and directories
 .git
 .gitignore
+.github
 README.md
 
 # Ignore log files
