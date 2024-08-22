@@ -26,7 +26,7 @@ jobs:
 
   dev-build:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: main
     steps:
     - name: deploy to vps using ssh for dev
       uses: appleboy/ssh-action@v1.0.3
