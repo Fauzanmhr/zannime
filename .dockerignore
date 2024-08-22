@@ -11,6 +11,7 @@ dockerfiles
 # Ignore Git-related files and directories
 .git
 .gitignore
+.github
 README.md
 
 # Ignore log files
@@ -21,3 +22,4 @@ README.md
 
 # Ignore any other unnecessary files or directories
 wajik-anime-api
+.idea

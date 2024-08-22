@@ -29,66 +29,71 @@ let allAnimeData = [];
 const fetchAllAnimeData = async () => {
   try {
     const response = await ky.get(`${process.env.API_URL}/otakudesu/anime`).json();
-    const animeData = response.data;
-    allAnimeData = animeData.flatMap(item => item.anime);
+    allAnimeData = response.data.flatMap(item => item.anime);
   } catch (error) {
     console.error('Error fetching all anime data:', error);
   }
 };
 
 // Fetch data on server start
-fetchAllAnimeData();
+(async () => {
+  await fetchAllAnimeData();
+})();
+
+// Periodically update all anime data (every 60 minutes)
+setInterval(async () => {
+  await fetchAllAnimeData();
+}, 60 * 60 * 1000);
 
 // Home route to list content with pagination
 app.get('/', async (req, res) => {
   const page = req.query.page || 1;
   try {
     const response = await ky.get(`${process.env.API_URL}/otakudesu/ongoing?page=${page}`).json();
-    const { data, pagination } = response;
-    res.render('index', { animes: data, pagination });
+    res.render('index', { animes: response.data, pagination: response.pagination });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).send('Error fetching data');
   }
 });
 
-// Search route with pagination
-app.get('/search', (req, res) => {
-  const query = req.query.q;
-  const page = parseInt(req.query.page) || 1;
-  const limit = 20; // Number of results per page
+// Search route with pagination parameters
+app.get('/search-ajax', (req, res) => {
+  const { q: query, page = 1, limit = 20 } = req.query;
+  if (!query) return res.json({ results: [] });
 
-  if (!query) {
-    return res.redirect('/');
-  }
-
-  const filteredResults = allAnimeData.filter(anime =>
-    anime.judul.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const totalResults = filteredResults.length;
-  const totalPages = Math.ceil(totalResults / limit);
+  let filteredResults = allAnimeData.filter(anime => anime.judul.toLowerCase().includes(query.toLowerCase()));
   const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-  const paginatedResults = filteredResults.slice(startIndex, endIndex);
+  const endIndex = page * limit;
+  const results = filteredResults.slice(startIndex, endIndex);
 
-  const pagination = {
-    currentPage: page,
-    totalPages: totalPages,
-    prevPage: page > 1 ? page - 1 : null,
-    nextPage: page < totalPages ? page + 1 : null
-  };
+  res.json({
+    results: results,
+    currentPage: parseInt(page, 10),
+    totalPages: Math.ceil(filteredResults.length / limit)
+  });
+});
 
-  res.render('search', { results: paginatedResults, query, pagination });
+// All anime route with pagination parameters
+app.get('/all-anime-ajax', (req, res) => {
+  const { page = 1, limit = 20 } = req.query;
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const results = allAnimeData.slice(startIndex, endIndex);
+
+  res.json({
+    results: results,
+    currentPage: parseInt(page, 10),
+    totalPages: Math.ceil(allAnimeData.length / limit)
+  });
 });
 
 // Anime detail route
 app.get('/anime/:slug', async (req, res) => {
-  const slug = req.params.slug;
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/anime/${slug}`).json();
-    const anime = response.data;
-    res.render('detail', { anime });
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/anime/${req.params.slug}`).json();
+    res.render('detail', { anime: response.data });
   } catch (error) {
     console.error('Error fetching anime details:', error);
     res.status(500).send('Error fetching anime details');
@@ -97,14 +102,11 @@ app.get('/anime/:slug', async (req, res) => {
 
 // Episode detail route
 app.get('/episode', async (req, res) => {
-  const slug = req.query.slug;
-  if (!slug) {
-    return res.redirect('/');
-  }
+  if (!req.query.slug) return res.redirect('/');
+
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/episode/${slug}`).json();
-    const episode = response.data;
-    res.render('episode', { episode });
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/episode/${req.query.slug}`).json();
+    res.render('episode', { episode: response.data });
   } catch (error) {
     console.error('Error fetching episode details:', error);
     res.status(500).send('Error fetching episode details');
@@ -112,9 +114,9 @@ app.get('/episode', async (req, res) => {
 });
 
 // All anime route
-app.get('/all-anime', async (req, res) => {
-  const page = req.query.page || 1;
-  const limit = 20; // Number of anime per page
+app.get('/all-anime', (req, res) => {
+  const { page = 1 } = req.query;
+  const limit = 20;
 
   const totalAnimes = allAnimeData.length;
   const totalPages = Math.ceil(totalAnimes / limit);
@@ -124,7 +126,7 @@ app.get('/all-anime', async (req, res) => {
 
   const pagination = {
     currentPage: page,
-    totalPages: totalPages,
+    totalPages,
     prevPage: page > 1 ? page - 1 : null,
     nextPage: page < totalPages ? page + 1 : null
   };
@@ -136,8 +138,7 @@ app.get('/all-anime', async (req, res) => {
 app.get('/genres', async (req, res) => {
   try {
     const response = await ky.get(`${process.env.API_URL}/otakudesu/genres`).json();
-    const genres = response.data;
-    res.render('genres', { genres });
+    res.render('genres', { genres: response.data });
   } catch (error) {
     console.error('Error fetching genres:', error);
     res.status(500).send('Error fetching genres');
@@ -146,13 +147,12 @@ app.get('/genres', async (req, res) => {
 
 // Anime by genre route
 app.get('/genres/:slug', async (req, res) => {
-  const slug = req.params.slug;
-  const page = req.query.page || 1;
+  const { slug } = req.params;
+  const { page = 1 } = req.query;
 
   try {
     const response = await ky.get(`${process.env.API_URL}/otakudesu/genres/${slug}?page=${page}`).json();
-    const { data, pagination } = response;
-    res.render('genre-anime', { animes: data, pagination, genre: slug });
+    res.render('genre-anime', { animes: response.data, pagination: response.pagination, genre: slug });
   } catch (error) {
     console.error('Error fetching anime by genre:', error);
     res.status(500).send('Error fetching anime by genre');
@@ -166,35 +166,24 @@ const fetchShortlink = (url) => {
 
     const request = protocol.get(url, (response) => {
       if (response.statusCode >= 300 && response.statusCode < 400) {
-        const location = response.headers.location;
-        if (location) {
-          return resolve(location);
-        }
+        return resolve(response.headers.location);
       }
       resolve(null);
     });
 
-    request.on('error', (error) => {
-      reject(error);
-    });
-
+    request.on('error', reject);
     request.end();
   });
 };
 
 // Route to decode shortlink
 app.get('/decode-shortlink', async (req, res) => {
-  const shortlink = req.query.url;
-
-  if (!shortlink) {
-    return res.status(400).send('URL parameter is required');
-  }
+  const { url: shortlink } = req.query;
+  if (!shortlink) return res.status(400).send('URL parameter is required');
 
   try {
     const redirectionUrl = await fetchShortlink(shortlink);
-    if (redirectionUrl) {
-      return res.send(redirectionUrl);
-    }
+    if (redirectionUrl) return res.send(redirectionUrl);
     res.status(404).send('No redirection found');
   } catch (error) {
     console.error('Error decoding shortlink:', error);

@@ -22,7 +22,7 @@
             <% episode.downloadUrl.forEach(quality => { %>
               <% if ((quality.kualitas === 'Mp4_720p') || (quality.kualitas === 'Mp4_1080p') || (quality.kualitas === 'MKV_1080p') || (quality.kualitas === '720p') || (quality.kualitas === '1080p')) { %>
                 <% quality.urls.forEach(url => { %>
-                  <% if ( ['Acefile', 'Pdrain', 'PDrain', 'KFiles', 'Kraken'].some(item => url.judul.toLowerCase().includes(item.toLowerCase())) ) { %>
+                  <% if ( ['Acefile', 'Pdrain', 'PDrain', 'KFiles', 'Kraken', 'Mega'].some(item => url.judul.toLowerCase().includes(item.toLowerCase())) ) { %>
                     <option value="<%= url.url %>"><%= url.judul %> <%= quality.kualitas %></option>
                   <% } %>
                 <% }) %>
@@ -94,9 +94,15 @@
       } else if (url.includes('acefile.co')) {
         const fileId = url.split('/f/')[1].split('/')[0];
         return `https://acefile.co/player/${fileId}`;
+      } else if (url.includes('mega.nz')) {
+        const parts = url.split('#');
+        if (parts.length !== 2) return url;
+        const fileId = parts[0].split('/').pop();
+        const key = parts[1];
+        return `https://mega.nz/embed/${fileId}#${key}`;
       }
-  return url; // Return the original URL if no specific format is found
-}
+      return url; // Return the original URL if no specific format is found
+    }
 
     document.getElementById('streaming-source').addEventListener('change', async function() {
       const selectedUrl = this.value;

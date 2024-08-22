@@ -1,4 +1,4 @@
-name: Node.js CD
+name: Auto Deploy To VPS
 
 on:
   push:
@@ -45,7 +45,7 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
         key: ${{ secrets.PRIVATE_KEY }}
         script: |
-          cd ~/.apps/zannime-dev
+          cd ~/.apps/zannime_dev
           git pull
           git status
           sudo docker compose -f docker-compose-dev.yaml build
