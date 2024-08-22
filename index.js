@@ -57,27 +57,36 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Search route with pagination
-app.get('/search', (req, res) => {
-  const { q: query, page = 1 } = req.query;
-  if (!query) return res.redirect('/');
+// Search route with pagination parameters
+app.get('/search-ajax', (req, res) => {
+  const { q: query, page = 1, limit = 20 } = req.query;
+  if (!query) return res.json({ results: [] });
 
-  const limit = 20;
-  const filteredResults = allAnimeData.filter(anime => anime.judul.toLowerCase().includes(query.toLowerCase()));
-  const totalResults = filteredResults.length;
-  const totalPages = Math.ceil(totalResults / limit);
+  let filteredResults = allAnimeData.filter(anime => anime.judul.toLowerCase().includes(query.toLowerCase()));
   const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-  const paginatedResults = filteredResults.slice(startIndex, endIndex);
+  const endIndex = page * limit;
+  const results = filteredResults.slice(startIndex, endIndex);
 
-  const pagination = {
-    currentPage: page,
-    totalPages,
-    prevPage: page > 1 ? page - 1 : null,
-    nextPage: page < totalPages ? page + 1 : null
-  };
+  res.json({
+    results: results,
+    currentPage: parseInt(page, 10),
+    totalPages: Math.ceil(filteredResults.length / limit)
+  });
+});
 
-  res.render('search', { results: paginatedResults, query, pagination });
+// All anime route with pagination parameters
+app.get('/all-anime-ajax', (req, res) => {
+  const { page = 1, limit = 20 } = req.query;
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const results = allAnimeData.slice(startIndex, endIndex);
+
+  res.json({
+    results: results,
+    currentPage: parseInt(page, 10),
+    totalPages: Math.ceil(allAnimeData.length / limit)
+  });
 });
 
 // Anime detail route
