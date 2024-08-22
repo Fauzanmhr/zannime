@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Bayon
+- Font Author: Copyright 2019 The Bayon Project Authors (https://github.com/danhhong/Bayon)
+- Font Source: https://fonts.gstatic.com/s/bayon/v34/9XUrlJNmn0LPFl-pOhYEd2NJ.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))

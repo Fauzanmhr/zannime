@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1809480f-4133-4dfe-81b4-6f12e3ca58da" name="Changes" comment="refactor views">
+      <change beforePath="$PROJECT_DIR$/views/all-anime.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/all-anime.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/detail.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/detail.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/episode.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/episode.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/footer.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/genre-anime.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/genre-anime.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/genres.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/genres.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/navbar.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/search.ejs" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Fauzanmhr&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Fauzanmhr/ZANNIME.git&quot;,
+    &quot;accountId&quot;: &quot;1eea5c9a-4369-44ef-a222-0a4251f67f00&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2kvXMIGhqhS6KEmblt2ZTXvZQqZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.animeController.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev",
+    "javascript.nodejs.core.library.configured.version": "20.16.0",
+    "javascript.nodejs.core.library.typings.version": "20.16.1",
+    "last_opened_file_path": "/home/fauzanmhr/Development/ZANNIME",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/snap/pycharm-professional/409/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="QodanaReportsService">
+    <option name="descriptions">
+      <ReportDescription localRun="true" path="/tmp/qodana_output/qodana.sarif.json" reportGuid="6b0f35f9-3601-4b1c-916b-29864c3597cc" reportId="ZANNIME/qodana/2024-08-20" />
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/public/favicon" />
+      <recent name="$PROJECT_DIR$/views" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/views/partials" />
+      <recent name="$PROJECT_DIR$/views/pages" />
+      <recent name="$PROJECT_DIR$/views" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/dockerfiles" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-PY-242.20224.347" />
+        <option value="bundled-python-sdk-c2d6afa66fbe-39cff9de6eef-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.20224.347" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="true">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1809480f-4133-4dfe-81b4-6f12e3ca58da" name="Changes" comment="" />
+      <created>1724164976036</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1724164976036</updated>
+      <workItem from="1724164977986" duration="7347000" />
+      <workItem from="1724173566891" duration="387000" />
+      <workItem from="1724193998516" duration="4139000" />
+      <workItem from="1724198891737" duration="6052000" />
+      <workItem from="1724205290401" duration="1069000" />
+      <workItem from="1724206371144" duration="22447000" />
+      <workItem from="1724232476771" duration="539000" />
+      <workItem from="1724233101232" duration="13536000" />
+      <workItem from="1724250918247" duration="155000" />
+      <workItem from="1724254484092" duration="2866000" />
+      <workItem from="1724286336971" duration="3269000" />
+      <workItem from="1724289666621" duration="41000" />
+      <workItem from="1724294829191" duration="10716000" />
+      <workItem from="1724320403198" duration="7242000" />
+      <workItem from="1724331454501" duration="7432000" />
+    </task>
+    <task id="LOCAL-00001" summary="add wajik api as submodule">
+      <option name="closed" value="true" />
+      <created>1724165024801</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1724165024801</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add wajik api as submodule, refactor dockerfile+_compose and example env">
+      <option name="closed" value="true" />
+      <created>1724165545218</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1724165545218</updated>
+    </task>
+    <task id="LOCAL-00003" summary="delete .idea files">
+      <option name="closed" value="true" />
+      <created>1724165631626</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1724165631626</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add .dockerignore">
+      <option name="closed" value="true" />
+      <created>1724166453013</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1724166453013</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add readme md">
+      <option name="closed" value="true" />
+      <created>1724167233130</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1724167233130</updated>
+    </task>
+    <task id="LOCAL-00006" summary="update readme md">
+      <option name="closed" value="true" />
+      <created>1724167451873</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1724167451873</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add example.env">
+      <option name="closed" value="true" />
+      <created>1724168221701</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1724168221701</updated>
+    </task>
+    <task id="LOCAL-00008" summary="update docs">
+      <option name="closed" value="true" />
+      <created>1724168394405</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1724168394405</updated>
+    </task>
+    <task id="LOCAL-00009" summary="edit .gitignore">
+      <option name="closed" value="true" />
+      <created>1724168535779</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1724168535779</updated>
+    </task>
+    <task id="LOCAL-00010" summary="re-add example env">
+      <option name="closed" value="true" />
+      <created>1724168574019</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1724168574019</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add .table-responsive for index and anime by genre page">
+      <option name="closed" value="true" />
+      <created>1724172535526</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1724172535526</updated>
+    </task>
+    <task id="LOCAL-00012" summary="add feature to stream anime on episode page">
+      <option name="closed" value="true" />
+      <created>1724212308944</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1724212308944</updated>
+    </task>
+    <task id="LOCAL-00013" summary="edit detail page make genres going to genre:slug">
+      <option name="closed" value="true" />
+      <created>1724213620433</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1724213620433</updated>
+    </task>
+    <task id="LOCAL-00014" summary="refactor code to implement clean architecture">
+      <option name="closed" value="true" />
+      <created>1724220777316</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1724220777316</updated>
+    </task>
+    <task id="LOCAL-00015" summary="boostrap cdn to npm boostrap">
+      <option name="closed" value="true" />
+      <created>1724220876454</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1724220876454</updated>
+    </task>
+    <task id="LOCAL-00016" summary="modify filter to not strict hoster name on stream source selector">
+      <option name="closed" value="true" />
+      <created>1724232094015</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1724232094015</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix acefile can't opened on streaming source">
+      <option name="closed" value="true" />
+      <created>1724232951767</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1724232951767</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix acefile can't opened on streaming source + change axios and node-fetch to ky">
+      <option name="closed" value="true" />
+      <created>1724237358662</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1724237358662</updated>
+    </task>
+    <task id="LOCAL-00019" summary="use axios for decode link">
+      <option name="closed" value="true" />
+      <created>1724243799975</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1724243799975</updated>
+    </task>
+    <task id="LOCAL-00020" summary="revert back to ky">
+      <option name="closed" value="true" />
+      <created>1724243931337</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1724243931337</updated>
+    </task>
+    <task id="LOCAL-00021" summary="refcator some code">
+      <option name="closed" value="true" />
+      <created>1724247229289</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1724247229289</updated>
+    </task>
+    <task id="LOCAL-00022" summary="refactor ejs">
+      <option name="closed" value="true" />
+      <created>1724249119787</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1724249119787</updated>
+    </task>
+    <task id="LOCAL-00023" summary="use ky instead axion and node-fetch">
+      <option name="closed" value="true" />
+      <created>1724249606159</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1724249606159</updated>
+    </task>
+    <task id="LOCAL-00024" summary="delete axios and node-fetch">
+      <option name="closed" value="true" />
+      <created>1724249867043</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1724249867043</updated>
+    </task>
+    <task id="LOCAL-00025" summary="delete axios and node-fetch">
+      <option name="closed" value="true" />
+      <created>1724250014366</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1724250014366</updated>
+    </task>
+    <task id="LOCAL-00026" summary="try to fix acefile decoding error">
+      <option name="closed" value="true" />
+      <created>1724255866686</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1724255866686</updated>
+    </task>
+    <task id="LOCAL-00027" summary="update for fix acefile decoding error">
+      <option name="closed" value="true" />
+      <created>1724257369233</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1724257369233</updated>
+    </task>
+    <task id="LOCAL-00028" summary="exclude acefile from format url">
+      <option name="closed" value="true" />
+      <created>1724286600387</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1724286600387</updated>
+    </task>
+    <task id="LOCAL-00029" summary="last try to fix acefile :)">
+      <option name="closed" value="true" />
+      <created>1724289327080</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1724289327080</updated>
+    </task>
+    <task id="LOCAL-00030" summary="re-add url formater for acefile">
+      <option name="closed" value="true" />
+      <created>1724289598831</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1724289598831</updated>
+    </task>
+    <task id="LOCAL-00031" summary="optimize code">
+      <option name="closed" value="true" />
+      <created>1724295219600</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1724295219600</updated>
+    </task>
+    <task id="LOCAL-00032" summary="add interval for fetchAllAnimeData every 60 minutes">
+      <option name="closed" value="true" />
+      <created>1724295646611</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1724295646611</updated>
+    </task>
+    <task id="LOCAL-00033" summary="optimize code">
+      <option name="closed" value="true" />
+      <created>1724295971444</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1724295971444</updated>
+    </task>
+    <task id="LOCAL-00034" summary="update all-anime pages to use live search">
+      <option name="closed" value="true" />
+      <created>1724306151627</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1724306151627</updated>
+    </task>
+    <task id="LOCAL-00035" summary="add Mega to streaming source">
+      <option name="closed" value="true" />
+      <created>1724307840662</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1724307840662</updated>
+    </task>
+    <task id="LOCAL-00036" summary="add github cd">
+      <option name="closed" value="true" />
+      <created>1724325677586</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1724325677586</updated>
+    </task>
+    <task id="LOCAL-00037" summary="edit github cd">
+      <option name="closed" value="true" />
+      <created>1724326548629</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1724326548629</updated>
+    </task>
+    <task id="LOCAL-00038" summary="edit github cd">
+      <option name="closed" value="true" />
+      <created>1724326976663</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1724326976663</updated>
+    </task>
+    <task id="LOCAL-00039" summary="edit .dockerignore">
+      <option name="closed" value="true" />
+      <created>1724327489053</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1724327489053</updated>
+    </task>
+    <task id="LOCAL-00040" summary="edit cd">
+      <option name="closed" value="true" />
+      <created>1724327632953</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1724327632953</updated>
+    </task>
+    <task id="LOCAL-00041" summary="edit cd">
+      <option name="closed" value="true" />
+      <created>1724327783965</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1724327783965</updated>
+    </task>
+    <task id="LOCAL-00042" summary="refactor views">
+      <option name="closed" value="true" />
+      <created>1724342422607</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1724342422607</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactor code to implement clean architecture" />
+    <MESSAGE value="boostrap cdn to npm boostrap" />
+    <MESSAGE value="modify filter to not strict hoster name on stream source selector" />
+    <MESSAGE value="fix acefile can't opened on streaming source" />
+    <MESSAGE value="fix acefile can't opened on streaming source + change axios and node-fetch to ky" />
+    <MESSAGE value="use axios for decode link" />
+    <MESSAGE value="revert back to ky" />
+    <MESSAGE value="refcator some code" />
+    <MESSAGE value="refactor ejs" />
+    <MESSAGE value="use ky instead axion and node-fetch" />
+    <MESSAGE value="delete axios and node-fetch" />
+    <MESSAGE value="try to fix acefile decoding error" />
+    <MESSAGE value="update for fix acefile decoding error" />
+    <MESSAGE value="exclude acefile from format url" />
+    <MESSAGE value="last try to fix acefile :)" />
+    <MESSAGE value="re-add url formater for acefile" />
+    <MESSAGE value="add interval for fetchAllAnimeData every 60 minutes" />
+    <MESSAGE value="optimize code" />
+    <MESSAGE value="update all-anime pages to use live search" />
+    <MESSAGE value="add Mega to streaming source" />
+    <MESSAGE value="add github cd" />
+    <MESSAGE value="edit github cd" />
+    <MESSAGE value="edit .dockerignore" />
+    <MESSAGE value="edit cd" />
+    <MESSAGE value="refactor views" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor views" />
+  </component>
+</project>
