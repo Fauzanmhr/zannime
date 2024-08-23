@@ -6,6 +6,7 @@ import animeRoutes from './routes/animeRoutes.js';
 import genreRoutes from './routes/genreRoutes.js';
 import episodeRoutes from './routes/episodeRoutes.js';
 import shortlinkRoutes from './routes/shortlinkRoutes.js';
+import scheduleRoutes from './routes/scheduleRoutes.js';
 import {fetchAllAnimeData} from './services/animeService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,6 +44,7 @@ app.use('/', animeRoutes);
 app.use('/', genreRoutes);
 app.use('/', episodeRoutes);
 app.use('/', shortlinkRoutes);
+app.use('/', scheduleRoutes);
 
 // Start the server
 app.listen(port, () => {
