@@ -9,6 +9,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - API_URL=http://wajik-anime-api-dev:3001
     depends_on:
       - wajik-anime-api
 

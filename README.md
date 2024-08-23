@@ -28,13 +28,8 @@ Sebelum memulai, pastikan Anda telah menginstal:
    ```sh
    git submodule update --init --recursive
    ```
-
-3. **Ganti example.env ke .env:**
-   ```sh
-   mv example.env .env
-   ```
    
-4**Build Image Docker:**
+3. **Build Image Docker:**
    ```sh
    docker compose build
    ```
