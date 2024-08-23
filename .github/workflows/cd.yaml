@@ -31,7 +31,7 @@ jobs:
   deploy-dev:
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
-    environment: main
+    environment: dev
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2

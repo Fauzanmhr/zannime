@@ -1,115 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= episode.judul %> - ZANNIME</title>
-  <!-- Bootstrap CSS -->
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-  <%- include('navbar') %>
-  <div class="container">
-    <h1 class="mt-4"><%= episode.judul %></h1>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="ratio ratio-16x9 mb-4">
-          <iframe id="streaming-iframe" src="<%= episode.streamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
-        </div>
-        <div class="mb-4">
-          <select id="streaming-source" class="form-select">
-            <option value="<%= episode.streamingUrl %>">Default Source</option>
-            <% episode.downloadUrl.forEach(quality => { %>
-              <% if ((quality.kualitas === 'Mp4_720p') || (quality.kualitas === 'Mp4_1080p') || (quality.kualitas === 'MKV_1080p') || (quality.kualitas === '720p') || (quality.kualitas === '1080p')) { %>
-                <% quality.urls.forEach(url => { %>
-                  <% if ( ['Acefile', 'Pdrain', 'PDrain', 'KFiles', 'Kraken', 'Mega'].some(item => url.judul.toLowerCase().includes(item.toLowerCase())) ) { %>
-                    <option value="<%= url.url %>"><%= url.judul %> <%= quality.kualitas %></option>
-                  <% } %>
-                <% }) %>
-              <% } %>
-            <% }) %>
-          </select>
-        </div>
-        <div class="d-flex justify-content-between mb-4">
-          <% if (episode.episodeSebelumnya) { %>
-            <a href="/episode?slug=<%= episode.episodeSebelumnya.slug %>" class="btn btn-primary">Previous Episode</a>
-          <% } else { %>
-            <span class="btn btn-secondary disabled">Previous Episode</span>
-          <% } %>
-          <% if (episode.episodeSelanjutnya) { %>
-            <a href="/episode?slug=<%= episode.episodeSelanjutnya.slug %>" class="btn btn-primary">Next Episode</a>
-          <% } else { %>
-            <span class="btn btn-secondary disabled">Next Episode</span>
-          <% } %>
-        </div>
-        <h2 class="mt-4">Download Links</h2>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Quality</th>
-              <th>Size</th>
-              <th>Links</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% episode.downloadUrl.forEach(quality => { %>
-              <tr>
-                <td><%= quality.kualitas %></td>
-                <td><%= quality.size %></td>
-                <td>
-                  <ul>
-                    <% quality.urls.forEach(url => { %>
-                      <li><a href="<%= url.url %>" target="_blank"><%= url.judul %></a></li>
-                    <% }) %>
-                  </ul>
-                </td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
+<%- include('partials/header', { title: episode.judul + ' - ZANNIME' }) %>
+<div class="container">
+  <h1 class="mt-4"><%= episode.judul %></h1>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="ratio ratio-16x9 mb-4">
+        <iframe id="streaming-iframe" src="<%= episode.streamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
       </div>
+      <div class="mb-4">
+        <select id="streaming-source" class="form-select">
+          <option value="<%= episode.streamingUrl %>">Default Source</option>
+          <% episode.downloadUrl.forEach(quality => { %>
+            <% if ((quality.kualitas === 'Mp4_720p') || (quality.kualitas === 'Mp4_1080p') || (quality.kualitas === 'MKV_1080p') || (quality.kualitas === '720p') || (quality.kualitas === '1080p')) { %>
+              <% quality.urls.forEach(url => { %>
+                <% if ( ['Acefile', 'Pdrain', 'PDrain', 'KFiles', 'Kraken', 'Mega'].some(item => url.judul.toLowerCase().includes(item.toLowerCase())) ) { %>
+                  <option value="<%= url.url %>"><%= url.judul %> <%= quality.kualitas %></option>
+                <% } %>
+              <% }) %>
+            <% } %>
+          <% }) %>
+        </select>
+      </div>
+      <div class="d-flex justify-content-between mb-4">
+        <% if (episode.episodeSebelumnya) { %>
+          <a href="/episode?slug=<%= episode.episodeSebelumnya.slug %>" class="btn btn-primary">Previous Episode</a>
+        <% } else { %>
+          <span class="btn btn-secondary disabled">Previous Episode</span>
+        <% } %>
+        <% if (episode.episodeSelanjutnya) { %>
+          <a href="/episode?slug=<%= episode.episodeSelanjutnya.slug %>" class="btn btn-primary">Next Episode</a>
+        <% } else { %>
+          <span class="btn btn-secondary disabled">Next Episode</span>
+        <% } %>
+      </div>
+      <h2 class="mt-4">Download Links</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Quality</th>
+            <th>Size</th>
+            <th>Links</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% episode.downloadUrl.forEach(quality => { %>
+            <tr>
+              <td><%= quality.kualitas %></td>
+              <td><%= quality.size %></td>
+              <td>
+                <ul>
+                  <% quality.urls.forEach(url => { %>
+                    <li><a href="<%= url.url %>" target="_blank"><%= url.judul %></a></li>
+                  <% }) %>
+                </ul>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
     </div>
   </div>
-  <%- include('footer') %>
-  <!-- Bootstrap JS -->
-  <script src="/js/bootstrap.bundle.min.js"></script>
-  <script>
-    async function decodeShortlink(shortlink) {
-      try {
-        const response = await fetch(`/decode-shortlink?url=${encodeURIComponent(shortlink)}`);
-        const decodedUrl = await response.text();
-        return decodedUrl;
-      } catch (error) {
-        return shortlink; // Return the original shortlink if decoding fails
-      }
+</div>
+<%- include('partials/footer') %>
+<!-- Bootstrap JS -->
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+  async function decodeShortlink(shortlink) {
+    try {
+      const response = await fetch(`/decode-shortlink?url=${encodeURIComponent(shortlink)}`);
+      const decodedUrl = await response.text();
+      return decodedUrl;
+    } catch (error) {
+      return shortlink; // Return the original shortlink if decoding fails
     }
+  }
 
-    function formatUrlForEmbedding(url) {
-      if (url.includes('krakenfiles.com')) {
-        const fileId = url.split('/').slice(-2, -1)[0];
-        return `https://krakenfiles.com/embed-video/${fileId}`;
-      } else if (url.includes('pixeldrain.com')) {
-        const fileId = url.split('/').pop();
-        return `https://pixeldrain.com/u/${fileId}?embed`;
-      } else if (url.includes('acefile.co')) {
-        const fileId = url.split('/f/')[1].split('/')[0];
-        return `https://acefile.co/player/${fileId}`;
-      } else if (url.includes('mega.nz')) {
-        const parts = url.split('#');
-        if (parts.length !== 2) return url;
-        const fileId = parts[0].split('/').pop();
-        const key = parts[1];
-        return `https://mega.nz/embed/${fileId}#${key}`;
-      }
-      return url; // Return the original URL if no specific format is found
+  function formatUrlForEmbedding(url) {
+    if (url.includes('krakenfiles.com')) {
+      const fileId = url.split('/').slice(-2, -1)[0];
+      return `https://krakenfiles.com/embed-video/${fileId}`;
+    } else if (url.includes('pixeldrain.com')) {
+      const fileId = url.split('/').pop();
+      return `https://pixeldrain.com/u/${fileId}?embed`;
+    } else if (url.includes('acefile.co')) {
+      const fileId = url.split('/f/')[1].split('/')[0];
+      return `https://acefile.co/player/${fileId}`;
+    } else if (url.includes('mega.nz')) {
+      const parts = url.split('#');
+      if (parts.length !== 2) return url;
+      const fileId = parts[0].split('/').pop();
+      const key = parts[1];
+      return `https://mega.nz/embed/${fileId}#${key}`;
     }
+    return url; // Return the original URL if no specific format is found
+  }
 
-    document.getElementById('streaming-source').addEventListener('change', async function() {
-      const selectedUrl = this.value;
-      const decodedUrl = await decodeShortlink(selectedUrl);
-      const formattedUrl = formatUrlForEmbedding(decodedUrl);
-      document.getElementById('streaming-iframe').src = formattedUrl;
-    });
-  </script>
+  document.getElementById('streaming-source').addEventListener('change', async function() {
+    const selectedUrl = this.value;
+    const decodedUrl = await decodeShortlink(selectedUrl);
+    const formattedUrl = formatUrlForEmbedding(decodedUrl);
+    document.getElementById('streaming-iframe').src = formattedUrl;
+  });
+</script>
 </body>
 </html>

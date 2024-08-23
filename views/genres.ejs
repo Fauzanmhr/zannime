@@ -1,27 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Genres - ZANNIME</title>
-  <!-- Bootstrap CSS -->
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-  <%- include('navbar') %>
-  <div class="container">
-    <h1 class="mt-4">Genres</h1>
-    <ul class="list-group">
-      <% genres.forEach(genre => { %>
-        <li class="list-group-item">
-          <a href="/genres/<%= genre.slug %>"><%= genre.judul %></a>
-        </li>
-      <% }) %>
-    </ul>
-  </div>
-  <br>
-  <%- include('footer') %>
-  <!-- Bootstrap JS -->
-  <script src="/js/bootstrap.bundle.min.js"></script>
+<%- include('partials/header', { title: 'Genres - ZANNIME' }) %>
+<div class="container">
+  <h1 class="mt-4">Genres</h1>
+  <ul class="list-group">
+    <% genres.forEach(genre => { %>
+      <li class="list-group-item">
+        <a href="/genres/<%= genre.slug %>"><%= genre.judul %></a>
+      </li>
+    <% }) %>
+  </ul>
+</div>
+<br>
+<%- include('partials/footer') %>
+<!-- Bootstrap JS -->
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
