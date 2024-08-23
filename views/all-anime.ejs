@@ -39,6 +39,12 @@
     const resultsContainer = document.getElementById('searchResults');
     const paginationContainer = document.getElementById('pagination');
 
+    // Update the URL with the search query
+    const url = new URL(window.location);
+    url.searchParams.set('q', query);
+    url.searchParams.set('page', page);
+    history.pushState({}, '', url);
+
     if (query.trim() === '') {
       fetch(`/all-anime-ajax?page=${page}&limit=${limit}`)
         .then(response => response.json())
@@ -149,8 +155,14 @@
     container.appendChild(nextLi);
   }
 
-  // Initial fetch
-  fetchData();
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialQuery = urlParams.get('q') || '';
+    searchInput.value = initialQuery;
+    const initialPage = urlParams.get('page') || 1;
+    fetchData(initialQuery, initialPage);
+  });
 </script>
 </body>
 </html>

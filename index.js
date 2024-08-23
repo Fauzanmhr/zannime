@@ -3,8 +3,8 @@ import express from 'express';
 import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import * as https from "node:https";
-import http from "http";
+import * as https from 'node:https';
+import http from 'http';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,9 +41,7 @@ const fetchAllAnimeData = async () => {
 })();
 
 // Periodically update all anime data (every 60 minutes)
-setInterval(async () => {
-  await fetchAllAnimeData();
-}, 60 * 60 * 1000);
+setInterval(fetchAllAnimeData, 60 * 60 * 1000);
 
 // Home route to list content with pagination
 app.get('/', async (req, res) => {
@@ -62,13 +60,13 @@ app.get('/search-ajax', (req, res) => {
   const { q: query, page = 1, limit = 20 } = req.query;
   if (!query) return res.json({ results: [] });
 
-  let filteredResults = allAnimeData.filter(anime => anime.judul.toLowerCase().includes(query.toLowerCase()));
+  const filteredResults = allAnimeData.filter(anime => anime.judul.toLowerCase().includes(query.toLowerCase()));
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   const results = filteredResults.slice(startIndex, endIndex);
 
   res.json({
-    results: results,
+    results,
     currentPage: parseInt(page, 10),
     totalPages: Math.ceil(filteredResults.length / limit)
   });
@@ -83,7 +81,7 @@ app.get('/all-anime-ajax', (req, res) => {
   const results = allAnimeData.slice(startIndex, endIndex);
 
   res.json({
-    results: results,
+    results,
     currentPage: parseInt(page, 10),
     totalPages: Math.ceil(allAnimeData.length / limit)
   });
