@@ -1,6 +1,6 @@
 import { fetchOngoingAnime, fetchAnimeDetails } from '../services/animeService.js';
 
-export const getAllAnime = async (req, res) => {
+export const getOngoingAnime = async (req, res) => {
   const page = req.query.page || 1;
   const result = await fetchOngoingAnime(page);
   res.render('index', { animes: result.data, pagination: result.pagination });

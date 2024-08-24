@@ -1,9 +1,9 @@
 import express from 'express';
-import { getAllAnime, getAnimeDetails, searchAnime, getAllAnimeAjax, renderAllAnimePage } from '../controllers/animeController.js';
+import { getOngoingAnime, getAnimeDetails, searchAnime, getAllAnimeAjax, renderAllAnimePage } from '../controllers/animeController.js';
 
 const router = express.Router();
 
-router.get('/', getAllAnime);
+router.get('/', getOngoingAnime);
 router.get('/anime/:slug', getAnimeDetails);
 router.get('/search-ajax', searchAnime);
 router.get('/all-anime-ajax', getAllAnimeAjax);
