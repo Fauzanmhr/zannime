@@ -16,7 +16,7 @@
       <tbody>
         <% animes.forEach(anime => { %>
           <tr>
-            <td><img src="<%= anime.poster %>" alt="<%= anime.judul %>" class="img-fluid" style="max-width: 100px;"></td>
+            <td><img loading="lazy" src="<%= anime.poster %>" alt="<%= anime.judul %>" class="img-fluid" style="max-width: 100px;"></td>
             <td><%= anime.judul %></td>
             <td><%= anime.hariRilis %></td>
             <td><%= anime.tanggalRilisTerbaru %></td>
