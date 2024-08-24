@@ -7,7 +7,7 @@
         <h2 class="card-title"><%= day.hari %></h2>
         <p class="card-text">
           <% day.anime.forEach((anime, index) => { %>
-            <a href="/anime/<%= anime.slug %>" class="badge bg-dark me-1 text-decoration-none"><%= anime.judul %></a><% if (index < day.anime.length - 1) { %>, <% } %>
+            <a href="/anime/<%= anime.slug %>" class="badge bg-primary me-1 text-decoration-none"><%= anime.judul %></a><% if (index < day.anime.length - 1) { %>, <% } %>
           <% }) %>
         </p>
       </div>
