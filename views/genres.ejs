@@ -1,15 +1,24 @@
 <%- include('partials/header', { title: 'Genres - ZANNIME' }) %>
 <div class="container">
   <h1 class="mt-4">Genres</h1>
-  <ul class="list-group">
+  <!-- Genres Grid -->
+  <div class="row">
     <% genres.forEach(genre => { %>
-      <li class="list-group-item">
-        <a href="/genres/<%= genre.slug %>"><%= genre.judul %></a>
-      </li>
+      <div class="col-md-4 col-lg-3 mb-4 genre-card">
+        <div class="card h-100 shadow-sm border-0 bg-black">
+          <div class="card-body text-center">
+            <h5 class="card-title">
+              <a href="/genres/<%= genre.slug %>" class="text-white text-decoration-none">
+                <%= genre.judul %>
+              </a>
+            </h5>
+          </div>
+        </div>
+      </div>
     <% }) %>
-  </ul>
+  </div>
 </div>
-<br>
+
 <%- include('partials/footer') %>
 <!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>

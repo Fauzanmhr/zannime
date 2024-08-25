@@ -16,7 +16,7 @@
             <tr>
               <td><%= anime.judul %></td>
               <td>
-                <a href="/anime/<%= anime.slug %>" class="btn btn-primary btn-sm">View</a>
+                <a href="/anime/<%= anime.slug %>" class="btn btn-dark btn-sm">View</a>
               </td>
             </tr>
           <% }) %>
@@ -91,7 +91,7 @@
       const tdAction = document.createElement('td');
       const viewLink = document.createElement('a');
       viewLink.href = `/anime/${result.slug}`;
-      viewLink.className = 'btn btn-primary btn-sm';
+      viewLink.className = 'btn btn-dark btn-sm';
       viewLink.textContent = 'View';
       tdAction.appendChild(viewLink);
       tr.appendChild(tdAction);

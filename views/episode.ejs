@@ -22,12 +22,12 @@
       </div>
       <div class="d-flex justify-content-between mb-4">
         <% if (episode.episodeSebelumnya) { %>
-          <a href="/episode?slug=<%= episode.episodeSebelumnya.slug %>" class="btn btn-primary">Previous Episode</a>
+          <a href="/episode?slug=<%= episode.episodeSebelumnya.slug %>" class="btn btn-dark">Previous Episode</a>
         <% } else { %>
           <span class="btn btn-secondary disabled">Previous Episode</span>
         <% } %>
         <% if (episode.episodeSelanjutnya) { %>
-          <a href="/episode?slug=<%= episode.episodeSelanjutnya.slug %>" class="btn btn-primary">Next Episode</a>
+          <a href="/episode?slug=<%= episode.episodeSelanjutnya.slug %>" class="btn btn-dark">Next Episode</a>
         <% } else { %>
           <span class="btn btn-secondary disabled">Next Episode</span>
         <% } %>
@@ -49,7 +49,7 @@
               <td>
                 <ul>
                   <% quality.urls.forEach(url => { %>
-                    <li><a href="<%= url.url %>" target="_blank"><%= url.judul %></a></li>
+                    <li><a href="<%= url.url %>" target="_blank" style="color: black;"><%= url.judul %></a></li>
                   <% }) %>
                 </ul>
               </td>

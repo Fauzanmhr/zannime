@@ -18,7 +18,7 @@
       <p><strong>Genres:</strong>
         <ul>
           <% anime.genres.forEach(genre => { %>
-            <li><a href="/genres/<%= genre.slug %>"><%= genre.judul %></a></li>
+            <li><a style="color: black;" href="/genres/<%= genre.slug %>"><%= genre.judul %></a></li>
           <% }) %>
         </ul>
       </p>
@@ -41,7 +41,7 @@
             <td><%= episode.judul %></td>
             <td><%= episode.tanggalRilis %></td>
             <td>
-              <button type="submit" name="slug" value="<%= episode.slug %>" class="btn btn-primary btn-sm">View</button>
+              <button type="submit" name="slug" value="<%= episode.slug %>" class="btn btn-dark btn-sm">View</button>
             </td>
           </tr>
         <% }) %>
