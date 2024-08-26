@@ -15,15 +15,5 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "files": [
-    "index.js",
-    "package.json",
-    "package-lock.json",
-    "public",
-    "views",
-    "routes",
-    "controllers",
-    "services"
-  ]
+  }
 }
