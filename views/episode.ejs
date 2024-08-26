@@ -70,6 +70,7 @@
       const decodedUrl = await response.text();
       return decodedUrl;
     } catch (error) {
+      console.error('Error decoding shortlink:', error);
       return shortlink; // Return the original shortlink if decoding fails
     }
   }
@@ -96,9 +97,13 @@
 
   document.getElementById('streaming-source').addEventListener('change', async function() {
     const selectedUrl = this.value;
-    const decodedUrl = await decodeShortlink(selectedUrl);
-    const formattedUrl = formatUrlForEmbedding(decodedUrl);
-    document.getElementById('streaming-iframe').src = formattedUrl;
+    let decodedUrl = selectedUrl;
+
+    // Only decode if it's not the default source
+    if (selectedUrl !== "<%= episode.streamingUrl %>") {
+      decodedUrl = await decodeShortlink(selectedUrl);
+    }
+    document.getElementById('streaming-iframe').src = formatUrlForEmbedding(decodedUrl);
   });
 </script>
 </body>
