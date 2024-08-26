@@ -13,7 +13,5 @@
       "dest": "index.js"
     }
   ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "regions": ["sin1"]
 }
