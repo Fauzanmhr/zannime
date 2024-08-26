@@ -6,8 +6,8 @@
       <div class="card-body">
         <h2 class="card-title"><%= day.hari %></h2>
         <p class="card-text">
-          <% day.anime.forEach((anime, index) => { %>
-            <a href="/anime/<%= anime.slug %>" class="badge bg-dark me-1 text-decoration-none"><%= anime.judul %></a><% if (index < day.anime.length - 1) { %>, <% } %>
+          <% day.anime.forEach((anime) => { %>
+            <a href="/anime/<%= anime.slug %>" class="badge bg-dark me-1 text-decoration-none long-badge"><%= anime.judul %></a>
           <% }) %>
         </p>
       </div>
@@ -20,3 +20,13 @@
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<style>
+  .long-badge {
+    margin: 2px;
+    word-wrap: break-word;
+    white-space: normal;
+    display: inline-block;
+    max-width: 100%;
+  }
+</style>
