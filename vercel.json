@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "zannime",
   "builds": [
     {
       "src": "index.js",
@@ -11,5 +12,18 @@
       "src": "/(.*)",
       "dest": "index.js"
     }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "files": [
+    "index.js",
+    "package.json",
+    "package-lock.json",
+    "public",
+    "views",
+    "routes",
+    "controllers",
+    "services",
   ]
 }
