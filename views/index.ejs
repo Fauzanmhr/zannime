@@ -1,37 +1,28 @@
 <%- include('partials/header', { title: 'ZANNIME' }) %>
 <div class="container">
   <h1 class="mt-4">On Going Anime</h1>
-  <div class="table-responsive">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Poster</th>
-          <th>Judul</th>
-          <th>Hari Rilis</th>
-          <th>Tanggal Rilis Terbaru</th>
-          <th>Episode Terbaru</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% animes.forEach(anime => { %>
-          <tr>
-            <td><img src="<%= anime.poster %>" alt="<%= anime.judul %>" class="img-fluid" style="max-width: 100px;"></td>
-            <td><%= anime.judul %></td>
-            <td><%= anime.hariRilis %></td>
-            <td><%= anime.tanggalRilisTerbaru %></td>
-            <td><%= anime.episodeTerbaru %></td>
-            <td>
-              <a href="/anime/<%= anime.slug %>" class="btn btn-dark btn-sm">View</a>
-            </td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
+  <div class="row">
+    <% animes.forEach(anime => { %>
+      <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-3">
+  <div class="card h-100 d-flex flex-column">
+    <img src="<%= anime.poster %>" class="card-img-top img-fluid" alt="<%= anime.judul %>" style="max-height: 300px; object-fit: cover;">
+    <div class="card-body p-2 d-flex flex-column">
+      <h6 class="card-title text-truncate mb-1" style="font-size: 0.9rem;"><%= anime.judul %></h6>
+      <p class="card-text small mb-1" style="font-size: 0.8rem;">
+        <strong>Release:</strong> <%= anime.hariRilis %><br>
+              <strong>Latest:</strong> <%= anime.tanggalRilisTerbaru %><br>
+              <strong>Ep:</strong> <%= anime.episodeTerbaru %>
+      </p>
+      <!-- Button with mt-auto to push it to the bottom -->
+      <a href="/anime/<%= anime.slug %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
+    </div>
+  </div>
+</div>
+    <% }) %>
   </div>
   <!-- Pagination -->
-  <nav aria-label="Anime list pagination">
-    <ul class="pagination justify-content-center">
+  <nav aria-label="Anime list pagination" class="d-flex justify-content-center">
+    <ul class="pagination">
       <li class="page-item <%= !pagination.prevPage ? 'disabled' : '' %>">
         <a class="page-link" href="?page=<%= pagination.prevPage %>">Previous</a>
       </li>
