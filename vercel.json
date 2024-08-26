@@ -24,6 +24,6 @@
     "views",
     "routes",
     "controllers",
-    "services",
+    "services"
   ]
 }
