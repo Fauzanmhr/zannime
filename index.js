@@ -36,9 +36,6 @@ const fetchAndStoreAnimeData = async () => {
   await fetchAndStoreAnimeData();
 })();
 
-// Periodically update all anime data (every 60 minutes)
-setInterval(fetchAndStoreAnimeData, 60 * 60 * 1000);
-
 // Use routes
 app.use('/', animeRoutes);
 app.use('/', genreRoutes);
@@ -50,3 +47,6 @@ app.use('/', scheduleRoutes);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+// Periodically update all anime data (every 60 minutes)
+setInterval(fetchAndStoreAnimeData, 60 * 60 * 1000);just refactor
