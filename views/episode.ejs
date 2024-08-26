@@ -3,8 +3,15 @@
   <h1 class="mt-4"><%= episode.judul %></h1>
   <div class="row">
     <div class="col-md-12">
-      <div class="ratio ratio-16x9 mb-4">
-        <iframe id="streaming-iframe" src="<%= episode.streamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
+      <div id="iframe-container" class="ratio ratio-16x9 mb-4 position-relative">
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="d-flex justify-content-center align-items-center position-absolute top-0 bottom-0 start-0 end-0 bg-light">
+          <div class="spinner-border text-black" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <!-- Streaming Iframe -->
+        <iframe id="streaming-iframe" class="d-none" src="<%= episode.streamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
       </div>
       <div class="mb-4">
         <select id="streaming-source" class="form-select">
@@ -103,7 +110,26 @@
     if (selectedUrl !== "<%= episode.streamingUrl %>") {
       decodedUrl = await decodeShortlink(selectedUrl);
     }
-    document.getElementById('streaming-iframe').src = formatUrlForEmbedding(decodedUrl);
+
+    const iframe = document.getElementById('streaming-iframe');
+    const spinner = document.getElementById('loading-spinner');
+
+    // Show the spinner and hide the iframe
+    spinner.style.display = 'flex';
+    iframe.classList.add('d-none');
+
+    // Update iframe source
+    iframe.src = formatUrlForEmbedding(decodedUrl);
+  });
+
+  // Listen for iframe load event to hide spinner
+  document.getElementById('streaming-iframe').addEventListener('load', function() {
+    const spinner = document.getElementById('loading-spinner');
+    const iframe = document.getElementById('streaming-iframe');
+
+    // Hide the spinner and show the iframe once loaded
+    spinner.style.display = 'none';
+    iframe.classList.remove('d-none');
   });
 </script>
 </body>

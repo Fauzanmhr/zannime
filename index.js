@@ -49,4 +49,4 @@ app.listen(port, () => {
 });
 
 // Periodically update all anime data (every 60 minutes)
-setInterval(fetchAndStoreAnimeData, 60 * 60 * 1000);just refactor
+setInterval(fetchAndStoreAnimeData, 60 * 60 * 1000);
