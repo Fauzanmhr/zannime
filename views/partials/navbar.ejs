@@ -5,7 +5,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
@@ -19,6 +19,10 @@
           <a class="nav-link" href="/schedule">Schedule</a>
         </li>
       </ul>
+      <form class="d-flex ms-auto " action="/all-anime" method="GET">
+        <input class="form-control form-control-sm me-2" type="search" placeholder="Search anime..." aria-label="Search" name="q" id="navbarSearchInput">
+        <button class="btn btn-sm btn-light" type="submit">🔍</button>
+      </form>
     </div>
   </div>
 </nav>
