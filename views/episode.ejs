@@ -11,16 +11,16 @@
           </div>
         </div>
         <!-- Streaming Iframe -->
-        <iframe id="streaming-iframe" class="d-none" src="<%= episode.streamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
+        <iframe id="streaming-iframe" class="d-none" src="<%= episode.defaultStreamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
       </div>
       <div class="mb-4">
         <select id="streaming-source" class="form-select">
           <option value="<%= episode.streamingUrl %>">Default Source</option>
-          <% episode.downloadUrl.forEach(quality => { %>
-            <% if ((quality.kualitas === 'Mp4_720p') || (quality.kualitas === 'Mp4_1080p') || (quality.kualitas === 'MKV_1080p') || (quality.kualitas === '720p') || (quality.kualitas === '1080p')) { %>
+          <% episode.downloadUrl.qualities.forEach(quality => { %>
+            <% if ((quality.judul === 'Mp4_720p') || (quality.judul === 'Mp4_1080p') || (quality.judul === 'MKV_1080p') || (quality.judul === '720p') || (quality.judul === '1080p')) { %>
               <% quality.urls.forEach(url => { %>
                 <% if ( ['Acefile', 'Pdrain', 'PDrain', 'KFiles', 'Kraken', 'Mega'].some(item => url.judul.toLowerCase().includes(item.toLowerCase())) ) { %>
-                  <option value="<%= url.url %>"><%= url.judul %> <%= quality.kualitas %></option>
+                  <option value="<%= url.url %>"><%= url.judul %> <%= quality.judul %></option>
                 <% } %>
               <% }) %>
             <% } %>
@@ -49,9 +49,9 @@
           </tr>
         </thead>
         <tbody>
-          <% episode.downloadUrl.forEach(quality => { %>
+          <% episode.downloadUrl.qualities.forEach(quality => { %>
             <tr>
-              <td><%= quality.kualitas %></td>
+              <td><%= quality.judul %></td>
               <td><%= quality.size %></td>
               <td>
                 <ul>
