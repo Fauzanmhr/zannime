@@ -17,5 +17,8 @@
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "ky": "^1.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }
