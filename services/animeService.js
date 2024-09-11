@@ -3,7 +3,7 @@ import ky from 'ky';
 export const fetchAllAnimeData = async () => {
   try {
     const response = await ky.get(`${process.env.API_URL}/otakudesu/anime`).json();
-    return response.data.flatMap(item => item.anime);
+    return response.data.flatMap(item => item.animeList); // Access animeList instead of anime
   } catch (error) {
     console.error('Error fetching all anime data:', error);
     return [];
