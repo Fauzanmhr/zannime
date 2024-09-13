@@ -6,7 +6,7 @@
       <div class="card-body">
         <h2 class="card-title"><%= day.hari %></h2>
         <p class="card-text">
-          <% day.anime.forEach((anime) => { %>
+          <% day.animeList.forEach((anime) => { %>
             <a href="/anime/<%= anime.slug %>" class="badge bg-dark me-1 text-decoration-none long-badge"><%= anime.judul %></a>
           <% }) %>
         </p>
