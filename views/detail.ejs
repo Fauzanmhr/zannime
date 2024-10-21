@@ -61,7 +61,7 @@
       <tbody>
         <% anime.episodeList.forEach(episode => { %>
           <tr>
-            <td><%= anime.title %></td>
+            <td><%= anime.title %> Episode <%= episode.title %></td>
             <!-- <td><%= episode.aired %></td> -->
             <td>
               <button type="submit" name="slug" value="<%= episode.episodeId %>" class="btn btn-dark btn-sm">View</button>
