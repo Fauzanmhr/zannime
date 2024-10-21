@@ -1,8 +1,8 @@
 import ky from 'ky';
 
-export const fetchEpisodeDetails = async (slug) => {
+export const fetchEpisodeDetails = async (episodeId) => {
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/episode/${slug}`).json();
+    const response = await ky.get(`${process.env.API_URL}/otakudesu/episode/${episodeId}`).json();
     return response.data;
   } catch (error) {
     console.error('Error fetching episode details:', error);

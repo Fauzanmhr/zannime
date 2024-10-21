@@ -64,7 +64,7 @@
             <td><%= anime.title %> Episode <%= episode.title %></td>
             <!-- <td><%= episode.aired %></td> -->
             <td>
-              <button type="submit" name="slug" value="<%= episode.episodeId %>" class="btn btn-dark btn-sm">View</button>
+              <a href="/episode/<%= episode.episodeId %>" class="btn btn-dark btn-sm">View</a>
             </td>
           </tr>
         <% }) %>

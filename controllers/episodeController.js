@@ -1,9 +1,10 @@
 import { fetchEpisodeDetails, fetchServerUrl } from '../services/episodeService.js';
 
 export const getEpisodeDetails = async (req, res) => {
-  if (!req.query.slug) return res.redirect('/');
+  const slug = req.params.slug;
+  if (!slug) return res.redirect('/');
 
-  const episode = await fetchEpisodeDetails(req.query.slug);
+  const episode = await fetchEpisodeDetails(slug);
   if (episode) {
     res.render('episode', { episode });
   } else {

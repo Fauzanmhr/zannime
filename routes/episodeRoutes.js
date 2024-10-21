@@ -3,7 +3,7 @@ import { getEpisodeDetails, getServerUrl } from '../controllers/episodeControlle
 
 const router = express.Router();
 
-router.get('/episode', getEpisodeDetails);
+router.get('/episode/:slug', getEpisodeDetails);
 router.get('/server-url', getServerUrl);
 
 export default router;
