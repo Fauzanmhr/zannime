@@ -2,7 +2,7 @@ import express from 'express';
 import 'dotenv/config';
 import path from 'path';
 import {fileURLToPath} from 'url';
-import { animeRoutes, genreRoutes, episodeRoutes, shortlinkRoutes, scheduleRoutes } from './routes/Routes.js';
+import { animeRoutes, genreRoutes, episodeRoutes, scheduleRoutes } from './routes/Routes.js';
 import {fetchAllAnimeData} from './services/animeService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,7 +33,7 @@ const fetchAndStoreAnimeData = async () => {
 })();
 
 // Use routes
-app.use('/', animeRoutes, genreRoutes, episodeRoutes, shortlinkRoutes, scheduleRoutes);
+app.use('/', animeRoutes, genreRoutes, episodeRoutes, scheduleRoutes);
 
 // Start the server
 app.listen(port, () => {

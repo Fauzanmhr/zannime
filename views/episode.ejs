@@ -15,15 +15,11 @@
       </div>
       <div class="mb-4">
         <select id="streaming-source" class="form-select">
-          <option value="<%= episode.streamingUrl %>">Default Source</option>
-          <% episode.downloadUrl.qualities.forEach(quality => { %>
-            <% if ((quality.title === 'Mp4_720p') || (quality.title === 'Mp4_1080p') || (quality.title === 'MKV_1080p') || (quality.title === '720p') || (quality.title === '1080p')) { %>
-              <% quality.urls.forEach(url => { %>
-                <% if ( ['Acefile', 'Pdrain', 'PDrain', 'KFiles', 'Kraken', 'Mega'].some(item => url.title.toLowerCase().includes(item.toLowerCase())) ) { %>
-                  <option value="<%= url.url %>"><%= url.title %> <%= quality.title %></option>
-                <% } %>
-              <% }) %>
-            <% } %>
+          <option value="default">Default Source</option>
+          <% episode.server.qualities.forEach(quality => { %>
+            <% quality.serverList.forEach(server => { %>
+              <option value="<%= server.serverId %>"><%= server.title %> <%= quality.title %></option>
+            <% }) %>
           <% }) %>
         </select>
       </div>
@@ -71,46 +67,8 @@
 <!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
-  async function decodeShortlink(shortlink) {
-    try {
-      const response = await fetch(`/decode-shortlink?url=${encodeURIComponent(shortlink)}`);
-      const decodedUrl = await response.text();
-      return decodedUrl;
-    } catch (error) {
-      console.error('Error decoding shortlink:', error);
-      return shortlink; // Return the original shortlink if decoding fails
-    }
-  }
-
-  function formatUrlForEmbedding(url) {
-    if (url.includes('krakenfiles.com')) {
-      const fileId = url.split('/').slice(-2, -1)[0];
-      return `https://krakenfiles.com/embed-video/${fileId}`;
-    } else if (url.includes('pixeldrain.com')) {
-      const fileId = url.split('/').pop();
-      return `https://pixeldrain.com/u/${fileId}?embed`;
-    } else if (url.includes('acefile.co')) {
-      const fileId = url.split('/f/')[1].split('/')[0];
-      return `https://acefile.co/player/${fileId}`;
-    } else if (url.includes('mega.nz')) {
-      const parts = url.split('#');
-      if (parts.length !== 2) return url;
-      const fileId = parts[0].split('/').pop();
-      const key = parts[1];
-      return `https://mega.nz/embed/${fileId}#${key}`;
-    }
-    return url; // Return the original URL if no specific format is found
-  }
-
   document.getElementById('streaming-source').addEventListener('change', async function() {
-    const selectedUrl = this.value;
-    let decodedUrl = selectedUrl;
-
-    // Only decode if it's not the default source
-    if (selectedUrl !== "<%= episode.streamingUrl %>") {
-      decodedUrl = await decodeShortlink(selectedUrl);
-    }
-
+    const selectedValue = this.value;
     const iframe = document.getElementById('streaming-iframe');
     const spinner = document.getElementById('loading-spinner');
 
@@ -118,8 +76,21 @@
     spinner.style.display = 'flex';
     iframe.classList.add('d-none');
 
-    // Update iframe source
-    iframe.src = formatUrlForEmbedding(decodedUrl);
+    if (selectedValue === "default") {
+      // Use the default streaming URL
+      iframe.src = "<%= episode.defaultStreamingUrl %>";
+    } else {
+      // Fetch the server URL
+      const response = await fetch(`/server-url?serverId=${selectedValue}`);
+      const data = await response.json();
+
+      if (data.url) {
+        // Update iframe source
+        iframe.src = data.url;
+      } else {
+        console.error('Error fetching server URL');
+      }
+    }
   });
 
   // Listen for iframe load event to hide spinner
