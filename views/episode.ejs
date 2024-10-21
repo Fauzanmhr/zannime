@@ -73,19 +73,15 @@
     const spinner = document.getElementById('loading-spinner');
 
     // Show the spinner and hide the iframe
-    spinner.style.display = 'flex';
+    spinner.classList.remove('d-none');
     iframe.classList.add('d-none');
 
     if (selectedValue === "default") {
-      // Use the default streaming URL
       iframe.src = "<%= episode.defaultStreamingUrl %>";
     } else {
-      // Fetch the server URL
       const response = await fetch(`/server-url?serverId=${selectedValue}`);
       const data = await response.json();
-
       if (data.url) {
-        // Update iframe source
         iframe.src = data.url;
       } else {
         console.error('Error fetching server URL');
@@ -93,13 +89,12 @@
     }
   });
 
-  // Listen for iframe load event to hide spinner
   document.getElementById('streaming-iframe').addEventListener('load', function() {
     const spinner = document.getElementById('loading-spinner');
     const iframe = document.getElementById('streaming-iframe');
 
     // Hide the spinner and show the iframe once loaded
-    spinner.style.display = 'none';
+    spinner.classList.add('d-none');
     iframe.classList.remove('d-none');
   });
 </script>

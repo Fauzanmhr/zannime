@@ -28,5 +28,3 @@ export const fetchAnimeDetails = async (slug) => {
     return null;
   }
 };
-
-// Add other service methods as needed
