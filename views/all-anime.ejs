@@ -14,9 +14,9 @@
         <tbody>
           <% animes.slice(0, 20).forEach(anime => { %>
             <tr>
-              <td><%= anime.judul %></td>
+              <td><%= anime.title %></td>
               <td>
-                <a href="/anime/<%= anime.slug %>" class="btn btn-dark btn-sm">View</a>
+                <a href="/anime/<%= anime.animeId %>" class="btn btn-dark btn-sm">View</a>
               </td>
             </tr>
           <% }) %>
@@ -85,12 +85,12 @@
     results.forEach(result => {
       const tr = document.createElement('tr');
       const tdJudul = document.createElement('td');
-      tdJudul.textContent = result.judul;
+      tdJudul.textContent = result.title;
       tr.appendChild(tdJudul);
 
       const tdAction = document.createElement('td');
       const viewLink = document.createElement('a');
-      viewLink.href = `/anime/${result.slug}`;
+      viewLink.href = `/anime/${result.animeId}`;
       viewLink.className = 'btn btn-dark btn-sm';
       viewLink.textContent = 'View';
       tdAction.appendChild(viewLink);

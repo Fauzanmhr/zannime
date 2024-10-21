@@ -2,9 +2,9 @@
 <div class="container">
   <h1 class="mt-4">Genres</h1>
   <ul class="list-group">
-    <% genres.forEach(genre => { %>
+    <% genres.genreList.forEach(genre => { %>
       <li class="list-group-item">
-        <a class="text-black" href="/genres/<%= genre.slug %>"><%= genre.judul %></a>
+        <a class="text-black" href="/genres/<%= genre.genreId %>"><%= genre.title %></a>
       </li>
     <% }) %>
   </ul>

@@ -1,6 +1,6 @@
-<%- include('partials/header', { title: episode.judul + ' - ZANNIME' }) %>
+<%- include('partials/header', { title: episode.title + ' - ZANNIME' }) %>
 <div class="container">
-  <h1 class="mt-4"><%= episode.judul %></h1>
+  <h1 class="mt-4"><%= episode.title %></h1>
   <div class="row">
     <div class="col-md-12">
       <div id="iframe-container" class="ratio ratio-16x9 mb-4 position-relative">
@@ -17,10 +17,10 @@
         <select id="streaming-source" class="form-select">
           <option value="<%= episode.streamingUrl %>">Default Source</option>
           <% episode.downloadUrl.qualities.forEach(quality => { %>
-            <% if ((quality.judul === 'Mp4_720p') || (quality.judul === 'Mp4_1080p') || (quality.judul === 'MKV_1080p') || (quality.judul === '720p') || (quality.judul === '1080p')) { %>
+            <% if ((quality.title === 'Mp4_720p') || (quality.title === 'Mp4_1080p') || (quality.title === 'MKV_1080p') || (quality.title === '720p') || (quality.title === '1080p')) { %>
               <% quality.urls.forEach(url => { %>
-                <% if ( ['Acefile', 'Pdrain', 'PDrain', 'KFiles', 'Kraken', 'Mega'].some(item => url.judul.toLowerCase().includes(item.toLowerCase())) ) { %>
-                  <option value="<%= url.url %>"><%= url.judul %> <%= quality.judul %></option>
+                <% if ( ['Acefile', 'Pdrain', 'PDrain', 'KFiles', 'Kraken', 'Mega'].some(item => url.title.toLowerCase().includes(item.toLowerCase())) ) { %>
+                  <option value="<%= url.url %>"><%= url.title %> <%= quality.title %></option>
                 <% } %>
               <% }) %>
             <% } %>
@@ -28,13 +28,13 @@
         </select>
       </div>
       <div class="d-flex justify-content-between mb-4">
-        <% if (episode.episodeSebelumnya) { %>
-          <a href="/episode?slug=<%= episode.episodeSebelumnya.slug %>" class="btn btn-dark">Previous Episode</a>
+        <% if (episode.prevEpisode) { %>
+          <a href="/episode?slug=<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">Previous Episode</a>
         <% } else { %>
           <span class="btn btn-secondary disabled">Previous Episode</span>
         <% } %>
-        <% if (episode.episodeSelanjutnya) { %>
-          <a href="/episode?slug=<%= episode.episodeSelanjutnya.slug %>" class="btn btn-dark">Next Episode</a>
+        <% if (episode.nextEpisode) { %>
+          <a href="/episode?slug=<%= episode.nextEpisode.episodeId %>" class="btn btn-dark">Next Episode</a>
         <% } else { %>
           <span class="btn btn-secondary disabled">Next Episode</span>
         <% } %>
@@ -51,12 +51,12 @@
         <tbody>
           <% episode.downloadUrl.qualities.forEach(quality => { %>
             <tr>
-              <td><%= quality.judul %></td>
+              <td><%= quality.title %></td>
               <td><%= quality.size %></td>
               <td>
                 <ul>
                   <% quality.urls.forEach(url => { %>
-                    <li><a href="<%= url.url %>" target="_blank" style="color: black;"><%= url.judul %></a></li>
+                    <li><a href="<%= url.url %>" target="_blank" style="color: black;"><%= url.title %></a></li>
                   <% }) %>
                 </ul>
               </td>

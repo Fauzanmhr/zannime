@@ -1,15 +1,15 @@
-<%- include('partials/header', { title: anime.judul + ' - ZANNIME' }) %>
+<%- include('partials/header', { title: anime.title + ' - ZANNIME' }) %>
 <div class="container mt-5">
   <div class="row">
     <!-- Anime Poster -->
     <div class="col-md-4">
       <div class="card shadow-sm position-relative">
         <!-- Poster Image -->
-        <img src="<%= anime.poster %>" alt="<%= anime.judul %>" class="img-fluid rounded">
+        <img src="<%= anime.poster %>" alt="<%= anime.title %>" class="img-fluid rounded">
 
         <!-- Score Overlay (Top Left) -->
         <div class="position-absolute top-0 start-0 p-2">
-            <span class="badge text-dark bg-white fs-6"><%= anime.skor %></span>
+            <span class="badge text-dark bg-white fs-6"><%= anime.score %></span>
         </div>
 
         <!-- Status Overlay (Bottom Right) -->
@@ -21,19 +21,19 @@
 
     <!-- Anime Details -->
     <div class="col-md-8">
-      <h1 class="display-4"><%= anime.judul %></h1>
+      <h1 class="display-4"><%= anime.title %></h1>
       <div class="my-3">
         <p><strong>Japanese:</strong> <%= anime.japanese %></p>
-        <p><strong>Producer:</strong> <%= anime.produser %></p>
-        <p><strong>Type:</strong> <%= anime.tipe %></p>
-        <p><strong>Total Episodes:</strong> <%= anime.totalEpisode %></p>
-        <p><strong>Duration:</strong> <%= anime.durasi %></p>
-        <p><strong>Release Date:</strong> <%= anime.tanggalRilis %></p>
-        <p><strong>Studio:</strong> <%= anime.studio %></p>
+        <p><strong>Producer:</strong> <%= anime.producers %></p>
+        <p><strong>Type:</strong> <%= anime.type %></p>
+        <p><strong>Total Episodes:</strong> <%= anime.episodes %></p>
+        <p><strong>Duration:</strong> <%= anime.duration %></p>
+        <p><strong>Release Date:</strong> <%= anime.aired %></p>
+        <p><strong>Studio:</strong> <%= anime.studios %></p>
         <p><strong>Genres:</strong></p>
         <ul class="list-inline">
-          <% anime.genres.forEach(genre => { %>
-            <li class="list-inline-item"><a href="/genres/<%= genre.slug %>" class="btn btn-outline-dark btn-sm"><%= genre.judul %></a></li>
+          <% anime.genreList.forEach(genre => { %>
+            <li class="list-inline-item"><a href="/genres/<%= anime.animeId %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
           <% }) %>
         </ul>
       </div>
@@ -41,7 +41,7 @@
       <!-- Synopsis -->
       <div class="my-4">
         <h4>Synopsis</h4>
-        <p class="text-justify"><%= anime.sinopsis.paragraphs.join(' ') %></p>
+        <p class="text-justify"><%= anime.synopsis.paragraphs.join(' ') %></p>
       </div>
     </div>
   </div>
@@ -54,17 +54,17 @@
       <thead>
         <tr>
           <th>Episode</th>
-          <th>Release Date</th>
+          <!-- <th>Release Date</th> -->
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <% anime.episodeList.forEach(episode => { %>
           <tr>
-            <td><%= episode.judul %></td>
-            <td><%= episode.tanggalRilis %></td>
+            <td><%= anime.title %></td>
+            <!-- <td><%= episode.aired %></td> -->
             <td>
-              <button type="submit" name="slug" value="<%= episode.slug %>" class="btn btn-dark btn-sm">View</button>
+              <button type="submit" name="slug" value="<%= episode.episodeId %>" class="btn btn-dark btn-sm">View</button>
             </td>
           </tr>
         <% }) %>

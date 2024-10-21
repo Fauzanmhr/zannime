@@ -1,13 +1,13 @@
 <%- include('partials/header', { title: 'Anime Schedule - ZANNIME' }) %>
 <div class="container">
   <h1 class="mt-4">Anime Release Schedule</h1>
-  <% schedule.forEach(day => { %>
+  <% schedule.days.forEach(day => { %>
     <div class="day-schedule card mt-3">
       <div class="card-body">
-        <h2 class="card-title"><%= day.hari %></h2>
+        <h2 class="card-title"><%= day.day %></h2>
         <p class="card-text">
           <% day.animeList.forEach((anime) => { %>
-            <a href="/anime/<%= anime.slug %>" class="badge bg-dark me-1 text-decoration-none long-badge"><%= anime.judul %></a>
+            <a href="/anime/<%= anime.animeId %>" class="badge bg-dark me-1 text-decoration-none long-badge"><%= anime.title %></a>
           <% }) %>
         </p>
       </div>

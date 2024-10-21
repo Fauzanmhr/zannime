@@ -1,21 +1,21 @@
-<%- include('partials/header', { title: 'Anime by Genre - ZANNIME' }) %>
+<%- include('partials/header', { title:  genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase() + ' Archives' + ' - ZANNIME' }) %>
 <div class="container">
   <h1 class="mt-4">Anime by Genre: <%= genre %></h1>
   <div class="row">
-    <% animes.forEach(anime => { %>
+    <% animes.animeList.forEach(anime => { %>
       <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-3">
   <div class="card h-100 d-flex flex-column">
-    <img src="<%= anime.poster %>" class="card-img-top img-fluid" alt="<%= anime.judul %>" style="max-height: 300px; object-fit: cover;">
+    <img src="<%= anime.poster %>" class="card-img-top img-fluid" alt="<%= anime.title %>" style="max-height: 300px; object-fit: cover;">
     <div class="card-body p-2 d-flex flex-column">
-      <h6 class="card-title text-truncate mb-1" style="font-size: 0.9rem;"><%= anime.judul %></h6>
+      <h6 class="card-title text-truncate mb-1" style="font-size: 0.9rem;"><%= anime.title %></h6>
       <p class="card-text small mb-1" style="font-size: 0.8rem;">
-        <strong>Rating:</strong> <%= anime.rating %><br>
-              <strong>Studio:</strong> <%= anime.studio %><br>
-              <strong>Musim:</strong> <%= anime.musim %><br>
-              <strong>Episodes:</strong> <%= anime.jumlahEpisode %>
+        <strong>Rating:</strong> <%= anime.score %><br>
+              <strong>Studio:</strong> <%= anime.studios %><br>
+              <strong>Musim:</strong> <%= anime.season %><br>
+              <strong>Episodes:</strong> <%= anime.episodes %>
       </p>
       <!-- Button with mt-auto to push it to the bottom -->
-      <a href="/anime/<%= anime.slug %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
+      <a href="/anime/<%= anime.animeId %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
     </div>
   </div>
 </div>

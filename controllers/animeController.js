@@ -20,7 +20,7 @@ export const searchAnime = (req, res) => {
   if (!query) return res.json({ results: [] });
 
   const allAnimeData = req.app.locals.allAnimeData;
-  const filteredResults = allAnimeData.filter(anime => anime.judul.toLowerCase().includes(query.toLowerCase()));
+  const filteredResults = allAnimeData.filter(anime => anime.title.toLowerCase().includes(query.toLowerCase()));
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   const results = filteredResults.slice(startIndex, endIndex);
