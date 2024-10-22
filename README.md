@@ -20,13 +20,14 @@ Sebelum memulai, pastikan Anda telah menginstal:
 
 1. **Klon repositori:**
    ```sh
-   git clone https://github.com/yourusername/zannime.git
+   git clone https://github.com/fauzanmhr/zannime.git
    cd zannime
    ```
 
-2. **Inisialisasi dan perbarui submodule:**
+2. **install submodule:**
    ```sh
-   git submodule update --init --recursive
+   cd wajik-anime-api
+   git pull
    ```
    
 3. **Build Image Docker:**
