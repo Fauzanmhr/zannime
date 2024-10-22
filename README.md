@@ -26,8 +26,7 @@ Sebelum memulai, pastikan Anda telah menginstal:
 
 2. **install submodule:**
    ```sh
-   cd wajik-anime-api
-   git pull
+   git submodule update --init --recursive
    ```
    
 3. **Build Image Docker:**
