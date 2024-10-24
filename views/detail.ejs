@@ -33,7 +33,7 @@
         <p><strong>Genres:</strong></p>
         <ul class="list-inline">
           <% anime.genreList.forEach(genre => { %>
-            <li class="list-inline-item"><a href="/genres/<%= anime.animeId %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
+            <li class="list-inline-item"><a href="/genres/<%= genre.genreId %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
           <% }) %>
         </ul>
       </div>
