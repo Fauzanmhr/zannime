@@ -1,10 +1,14 @@
 <%- include('partials/header', { title: episode.title + ' - ZANNIME' }) %>
-<div class="container">
-  <h1 class="mt-4"><%= episode.title %></h1>
+
+<div class="container my-5">
+  <!-- Episode Title -->
+  <h1 class="display-5 mb-4"><%= episode.title %></h1>
+
+  <!-- Streaming Player Section -->
   <div class="row">
     <div class="col-md-12">
       <div id="iframe-container" class="ratio ratio-16x9 mb-4 position-relative">
-        <!-- Loading Spinner -->
+        <!-- Original Loading Spinner -->
         <div id="loading-spinner" class="d-flex justify-content-center align-items-center position-absolute top-0 bottom-0 start-0 end-0 bg-light">
           <div class="spinner-border text-black" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -13,57 +17,80 @@
         <!-- Streaming Iframe -->
         <iframe id="streaming-iframe" class="d-none" src="<%= episode.defaultStreamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
       </div>
+
+      <!-- Streaming Sources Dropdown -->
       <div class="mb-4">
+        <label for="streaming-source" class="form-label">Choose Streaming Source:</label>
         <select id="streaming-source" class="form-select">
           <option value="default">Default Source</option>
           <% episode.server.qualities.forEach(quality => { %>
             <% quality.serverList.forEach(server => { %>
-              <option value="<%= server.serverId %>"><%= server.title %> <%= quality.title %></option>
+              <option value="<%= server.serverId %>"><%= server.title %> - <%= quality.title %></option>
             <% }) %>
           <% }) %>
         </select>
       </div>
+
+      <!-- Episode Navigation -->
       <div class="d-flex justify-content-between mb-4">
         <% if (episode.prevEpisode) { %>
-          <a href="/episode/<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">Previous Episode</a>
+          <a href="/episode/<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">
+            <i class="bi bi-arrow-left me-1"></i>Previous Episode
+          </a>
         <% } else { %>
           <span class="btn btn-secondary disabled">Previous Episode</span>
         <% } %>
+
         <% if (episode.nextEpisode) { %>
-          <a href="/episode/<%= episode.nextEpisode.episodeId %>" class="btn btn-dark">Next Episode</a>
+          <a href="/episode/<%= episode.nextEpisode.episodeId %>" class="btn btn-dark">
+            Next Episode<i class="bi bi-arrow-right ms-1"></i>
+          </a>
         <% } else { %>
           <span class="btn btn-secondary disabled">Next Episode</span>
         <% } %>
       </div>
-      <h2 class="mt-4">Download Links</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Quality</th>
-            <th>Size</th>
-            <th>Links</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% episode.downloadUrl.qualities.forEach(quality => { %>
+
+      <!-- Redesigned Download Links Section -->
+      <h3 class="mb-3">Download Links</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+          <thead class="table-dark">
             <tr>
-              <td><%= quality.title %></td>
-              <td><%= quality.size %></td>
-              <td>
-                <ul>
-                  <% quality.urls.forEach(url => { %>
-                    <li><a href="<%= url.url %>" target="_blank" style="color: black;"><%= url.title %></a></li>
-                  <% }) %>
-                </ul>
-              </td>
+              <th scope="col">Quality</th>
+              <th scope="col">Size</th>
+              <th scope="col">Download Links</th>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% episode.downloadUrl.qualities.forEach(quality => { %>
+              <tr>
+                <!-- Quality Badge -->
+                <td class="fw-bold">
+                  <span class="badge bg-dark fs-6"><%= quality.title %></span>
+                </td>
+                <!-- Size Badge -->
+                <td><%= quality.size %></td>
+                <!-- Download Links as Buttons -->
+                <td>
+                  <div class="d-flex flex-wrap gap-2">
+                    <% quality.urls.forEach(url => { %>
+                      <a href="<%= url.url %>" target="_blank" class="btn btn-sm btn-outline-dark">
+                        <i class="bi bi-download me-1"></i><%= url.title %>
+                      </a>
+                    <% }) %>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
+
 <%- include('partials/footer') %>
+
 <!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
