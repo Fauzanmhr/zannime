@@ -1,4 +1,4 @@
-import { fetchOngoingAnime, fetchAnimeDetails } from '../services/animeService.js';
+import { fetchOngoingAnime, fetchAnimeDetails, fetchBatchDetails } from '../services/animeService.js';
 
 export const getOngoingAnime = async (req, res) => {
   const page = req.query.page || 1;
@@ -14,6 +14,20 @@ export const getAnimeDetails = async (req, res) => {
     res.status(500).send('Error fetching anime details');
   }
 };
+
+
+export const GetBatchDetails = async (req, res) => {
+  const slug = req.params.slug;
+  if (!slug) return res.redirect('/');
+
+  const batch = await fetchBatchDetails(slug);
+  if (batch) {
+    res.json(batch); // Return the entire batch details
+  } else {
+    res.status(500).send('Error fetching batch details');
+  }
+};
+
 
 export const searchAnime = (req, res) => {
   const { q: query, page = 1, limit = 20 } = req.query;
