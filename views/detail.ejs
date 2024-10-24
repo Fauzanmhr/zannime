@@ -90,8 +90,7 @@
         <% anime.episodeList.forEach(episode => { %>
           <div class="d-flex justify-content-between align-items-center mb-2">
             <!-- Episode Title -->
-            <span>Episode <%= episode.title %>: <%= anime.title %></span>
-
+            <span><%= anime.title %> Episode <%= episode.title %></span>
             <!-- View Button with Icon -->
             <a href="/episode/<%= episode.episodeId %>" class="btn btn-dark btn-sm">
               <i class="bi bi-play-fill me-1"></i>Watch
