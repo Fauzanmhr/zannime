@@ -55,9 +55,15 @@
         <span><%= anime.batch.title %></span>
 
         <!-- Download Button with Icon -->
-        <button id="generateLinkBtn" class="btn btn-dark btn-sm" data-batch-id="<%= anime.batch.batchId %>">
-          <i class="bi bi-download me-1"></i>Generate Link
-        </button>
+        <% if (!anime.batch.linkGenerated) { %>
+          <button id="generateLinkBtn" class="btn btn-dark btn-sm" data-batch-id="<%= anime.batch.batchId %>">
+            <i class="bi bi-download me-1"></i>Generate Link
+          </button>
+        <% } else { %>
+          <button class="btn btn-dark btn-sm" disabled>
+            <i class="bi bi-download me-1"></i>Link Generated
+          </button>
+        <% } %>
       <% } else { %>
         <!-- No Batch Available Message -->
         <span class="text-muted">No batch available at the moment.</span>
@@ -166,6 +172,10 @@
 
           // Show the download options
           document.getElementById('downloadOptions').style.display = 'block';
+
+          // Disable the button after generating the link
+          this.disabled = true;
+          this.textContent = 'Link Generated';
         } else {
           alert('Download options not available.');
         }
