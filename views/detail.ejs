@@ -88,22 +88,39 @@
       </div>
     </div>
 
-    <!-- Compact Episodes Section -->
+    <!-- Watch Episodes Section as Responsive Table -->
     <div class="my-4">
       <h5 class="fw-bold">Watch Episodes</h5>
-      <div class="border p-3 rounded bg-light">
-        <% if (anime.episodeList.length > 0) { %>
-          <% anime.episodeList.forEach(episode => { %>
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span><%= anime.title %> Episode <%= episode.title %></span>
-              <a href="/episode/<%= episode.episodeId %>" class="btn btn-dark btn-sm">
-                <i class="bi bi-play-fill me-1"></i>Watch
-              </a>
-            </div>
-          <% }) %>
-        <% } else { %>
-          <p class="text-muted mb-0">No episodes available.</p>
-        <% } %>
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Episode</th>
+              <th scope="col" class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (anime.episodeList.length > 0) { %>
+              <% anime.episodeList.forEach(episode => { %>
+                <tr>
+                  <!-- Episode Title -->
+                  <td><%= anime.title %> Episode <%= episode.title %></td>
+                  
+                  <!-- Centered Watch Button -->
+                  <td class="text-center">
+                    <a href="/episode/<%= episode.episodeId %>" class="btn btn-dark btn-sm">
+                      <i class="bi bi-play-fill me-1"></i>Watch Now
+                    </a>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="2" class="text-muted text-center">No episodes available.</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
       </div>
     </div>
 
