@@ -25,6 +25,7 @@ jobs:
           cd ~/.apps/zannime
           git pull
           git status
+          git submodule update --init --recursive
           sudo docker compose -f docker-compose.yaml build
           sudo docker compose -f docker-compose.yaml up -d
 
@@ -48,5 +49,6 @@ jobs:
           cd ~/.apps/zannime_dev
           git pull
           git status
+          git submodule update --init --recursive
           sudo docker compose -f docker-compose-dev.yaml build
           sudo docker compose -f docker-compose-dev.yaml up -d
