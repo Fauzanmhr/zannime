@@ -1,0 +1,50 @@
+<%- include('partials/header', { title: 'Settings - ZANNIME' }) %>
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+          <h3 class="card-title mb-0">Settings</h3>
+        </div>
+        <div class="card-body">
+          <form action="/settings" method="POST">
+            <div class="mb-4">
+              <label class="form-label fw-bold">Anime Source</label>
+              <p class="text-muted small">Select your preferred anime data source. This affects where anime data is pulled from.</p>
+              
+              <div class="d-flex flex-column gap-2 mt-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="source" id="sourceOtakudesu" 
+                    value="<%= sources.OTAKUDESU %>" <%= currentSource === sources.OTAKUDESU ? 'checked' : '' %>>
+                  <label class="form-check-label" for="sourceOtakudesu">
+                    <strong>Otakudesu</strong>
+                    <span class="d-block text-muted small">Default source with a large collection of anime.</span>
+                  </label>
+                </div>
+                
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="source" id="sourceSamehadaku" 
+                    value="<%= sources.SAMEHADAKU %>" <%= currentSource === sources.SAMEHADAKU ? 'checked' : '' %>>
+                  <label class="form-check-label" for="sourceSamehadaku">
+                    <strong>Samehadaku</strong>
+                    <span class="d-block text-muted small">Alternative source with different anime availability.</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-dark">Save Settings</button>
+              <a href="/" class="btn btn-outline-secondary">Back to Home</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>
+<!-- Bootstrap JS -->
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

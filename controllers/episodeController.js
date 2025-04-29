@@ -1,24 +1,49 @@
-import { fetchEpisodeDetails, fetchServerUrl } from '../services/episodeService.js';
+import {
+  fetchEpisodeDetails,
+  fetchServerUrl,
+} from "../services/episodeService.js";
+import { getCurrentSource, SOURCES } from "../services/sourceService.js";
 
-export const getEpisodeDetails = async (req, res) => {
-  const slug = req.params.slug;
-  if (!slug) return res.redirect('/');
+export const getEpisode = async (req, res) => {
+  const episodeSlug = req.params.slug;
+  if (!episodeSlug) return res.redirect("/");
 
-  const episode = await fetchEpisodeDetails(slug);
+  const episode = await fetchEpisodeDetails(req, episodeSlug);
+
   if (episode) {
-    res.render('episode', { episode });
+    const source = getCurrentSource(req);
+
+    // Normalize download URL formats
+    const normalizedEpisode = { ...episode };
+
+    if (source === SOURCES.SAMEHADAKU && episode.downloadUrl?.formats) {
+      normalizedEpisode.standardizedDownloads = {
+        isSamehadakuFormat: true,
+        formats: episode.downloadUrl.formats,
+      };
+    } else if (source === SOURCES.OTAKUDESU && episode.downloadUrl?.qualities) {
+      normalizedEpisode.standardizedDownloads = {
+        isSamehadakuFormat: false,
+        qualities: episode.downloadUrl.qualities,
+      };
+    } else {
+      normalizedEpisode.standardizedDownloads = null;
+    }
+
+    res.render("episode", { episode: normalizedEpisode });
   } else {
-    res.status(500).send('Error fetching episode details');
+    res.status(500).send("Error fetching episode details");
   }
 };
 
 export const getServerUrl = async (req, res) => {
-  if (!req.query.serverId) return res.status(400).send('Server ID is required');
+  const serverId = req.query.serverId;
+  if (!serverId) return res.status(400).send("Server ID is required");
 
-  const serverUrl = await fetchServerUrl(req.query.serverId);
-  if (serverUrl) {
-    res.json({ url: serverUrl });
+  const url = await fetchServerUrl(req, serverId);
+  if (url) {
+    res.json({ url });
   } else {
-    res.status(500).send('Error fetching server URL');
+    res.status(500).send("Error fetching server URL");
   }
 };

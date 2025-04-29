@@ -1,6 +1,6 @@
-<%- include('partials/header', { title:  genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase() + ' Archives' + ' - ZANNIME' }) %>
+<%- include('partials/header', { title: genreTitle.charAt(0).toUpperCase() + genreTitle.slice(1).toLowerCase() + ' Archives' + ' - ZANNIME' }) %>
 <div class="container">
-  <h1 class="mt-4">Anime by Genre: <%= genre %></h1>
+  <h1 class="mt-4">Anime by Genre: <%= genreTitle %></h1>
   <div class="row">
     <% animes.animeList.forEach(anime => { %>
       <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-3">

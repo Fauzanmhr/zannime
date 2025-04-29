@@ -23,11 +23,13 @@
         <label for="streaming-source" class="form-label">Choose Streaming Source:</label>
         <select id="streaming-source" class="form-select">
           <option value="default">Default Source</option>
-          <% episode.server.qualities.forEach(quality => { %>
-            <% quality.serverList.forEach(server => { %>
-              <option value="<%= server.serverId %>"><%= server.title %> - <%= quality.title %></option>
+          <% if (episode.server && episode.server.qualities) { %>
+            <% episode.server.qualities.forEach(quality => { %>
+              <% quality.serverList.forEach(server => { %>
+                <option value="<%= server.serverId %>"><%= server.title %> - <%= quality.title %></option>
+              <% }) %>
             <% }) %>
-          <% }) %>
+          <% } %>
         </select>
       </div>
 
@@ -51,40 +53,97 @@
       </div>
 
       <!-- Redesigned Download Links Section -->
-      <h3 class="mb-3">Download Links</h3>
-      <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-          <thead class="table-dark">
-            <tr>
-              <th scope="col">Quality</th>
-              <th scope="col">Size</th>
-              <th scope="col">Download Links</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% episode.downloadUrl.qualities.forEach(quality => { %>
-              <tr>
-                <!-- Quality Badge -->
-                <td class="fw-bold">
-                  <span class="badge bg-dark fs-6"><%= quality.title %></span>
-                </td>
-                <!-- Size Badge -->
-                <td><%= quality.size %></td>
-                <!-- Download Links as Buttons -->
-                <td>
-                  <div class="d-flex flex-wrap gap-2">
-                    <% quality.urls.forEach(url => { %>
-                      <a href="<%= url.url %>" target="_blank" class="btn btn-sm btn-outline-dark">
-                        <i class="bi bi-download me-1"></i><%= url.title %>
-                      </a>
-                    <% }) %>
+      <% if (episode.standardizedDownloads) { %>
+        <h3 class="mb-3">Download Links</h3>
+
+        <% if (episode.standardizedDownloads.isSamehadakuFormat) { %>
+          <!-- Samehadaku format (using accordion) -->
+          <div class="accordion" id="downloadAccordion">
+            <% episode.standardizedDownloads.formats.forEach((format, formatIndex) => { %>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button <%= formatIndex > 0 ? 'collapsed' : '' %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= formatIndex %>" aria-expanded="<%= formatIndex === 0 ? 'true' : 'false' %>" aria-controls="collapse<%= formatIndex %>">
+                    <%= format.title %>
+                  </button>
+                </h2>
+                <div id="collapse<%= formatIndex %>" class="accordion-collapse collapse <%= formatIndex === 0 ? 'show' : '' %>" data-bs-parent="#downloadAccordion">
+                  <div class="accordion-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered align-middle">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Quality</th>
+                            <th scope="col">Download Links</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% format.qualities.forEach(quality => { %>
+                            <tr>
+                              <!-- Quality Badge -->
+                              <td class="fw-bold">
+                                <span class="badge bg-dark fs-6"><%= quality.title %></span>
+                              </td>
+                              <!-- Download Links as Buttons -->
+                              <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                  <% quality.urls.forEach(url => { %>
+                                    <a href="<%= url.url %>" target="_blank" class="btn btn-sm btn-outline-dark">
+                                      <i class="bi bi-download me-1"></i><%= url.title %>
+                                    </a>
+                                  <% }) %>
+                                </div>
+                              </td>
+                            </tr>
+                          <% }) %>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </td>
-              </tr>
+                </div>
+              </div>
             <% }) %>
-          </tbody>
-        </table>
-      </div>
+          </div>
+        <% } else { %>
+          <!-- Otakudesu format (simple table) -->
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">Quality</th>
+                  <th scope="col">Size</th>
+                  <th scope="col">Download Links</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% episode.standardizedDownloads.qualities.forEach(quality => { %>
+                  <tr>
+                    <!-- Quality Badge -->
+                    <td class="fw-bold">
+                      <span class="badge bg-dark fs-6"><%= quality.title %></span>
+                    </td>
+                    <!-- Size Badge -->
+                    <td><%= quality.size || 'Unknown' %></td>
+                    <!-- Download Links as Buttons -->
+                    <td>
+                      <div class="d-flex flex-wrap gap-2">
+                        <% quality.urls.forEach(url => { %>
+                          <a href="<%= url.url %>" target="_blank" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-download me-1"></i><%= url.title %>
+                          </a>
+                        <% }) %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      <% } else { %>
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle-fill me-2"></i>Download links are not available for this episode.
+        </div>
+      <% } %>
     </div>
   </div>
 </div>

@@ -1,21 +1,21 @@
-import ky from 'ky';
+import { makeApiRequest } from "./sourceService.js";
 
-export const fetchEpisodeDetails = async (episodeId) => {
+export const fetchEpisodeDetails = async (req, episodeId) => {
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/episode/${episodeId}`).json();
+    const response = await makeApiRequest(req, `/episode/${episodeId}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching episode details:', error);
+    console.error("Error fetching episode details:", error);
     return null;
   }
 };
 
-export const fetchServerUrl = async (serverId) => {
+export const fetchServerUrl = async (req, serverId) => {
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/server/${serverId}`).json();
+    const response = await makeApiRequest(req, `/server/${serverId}`);
     return response.data.url;
   } catch (error) {
-    console.error('Error fetching server URL:', error);
+    console.error("Error fetching server URL:", error);
     return null;
   }
 };
