@@ -27,7 +27,6 @@
   </nav>
 </div>
 <%- include('partials/footer') %>
-<!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
   let currentPage = 1;
@@ -36,8 +35,6 @@
   function fetchData(query = '', page = 1) {
     const resultsContainer = document.getElementById('searchResults');
     const paginationContainer = document.getElementById('pagination');
-
-    // Update the URL with the search query
     const url = new URL(window.location);
     url.searchParams.set('q', query);
     url.searchParams.set('page', page);

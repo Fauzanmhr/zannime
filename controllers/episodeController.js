@@ -12,8 +12,6 @@ export const getEpisode = async (req, res) => {
 
   if (episode) {
     const source = getCurrentSource(req);
-
-    // Normalize download URL formats
     const normalizedEpisode = { ...episode };
 
     if (source === SOURCES.SAMEHADAKU && episode.downloadUrl?.formats) {

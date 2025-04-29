@@ -35,7 +35,6 @@ export const searchAnime = (req, res) => {
   const { q: query, page = 1, limit = 20 } = req.query;
   if (!query) return res.json({ results: [] });
 
-  // Use the source-specific anime data
   const allAnimeData = req.app.locals.currentAnimeData;
   const filteredResults = allAnimeData.filter((anime) =>
     anime.title.toLowerCase().includes(query.toLowerCase()),
@@ -53,7 +52,6 @@ export const searchAnime = (req, res) => {
 
 export const getAllAnimeAjax = (req, res) => {
   const { page = 1, limit = 20 } = req.query;
-  // Use the source-specific anime data
   const allAnimeData = req.app.locals.currentAnimeData;
 
   const startIndex = (page - 1) * limit;
@@ -70,7 +68,6 @@ export const getAllAnimeAjax = (req, res) => {
 export const renderAllAnimePage = (req, res) => {
   const { page = 1 } = req.query;
   const limit = 20;
-  // Use the source-specific anime data
   const allAnimeData = req.app.locals.currentAnimeData;
 
   const totalAnimes = allAnimeData.length;

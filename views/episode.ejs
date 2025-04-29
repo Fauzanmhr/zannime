@@ -1,24 +1,19 @@
 <%- include('partials/header', { title: episode.title + ' - ZANNIME' }) %>
 
 <div class="container my-5">
-  <!-- Episode Title -->
   <h1 class="display-5 mb-4"><%= episode.title %></h1>
 
-  <!-- Streaming Player Section -->
   <div class="row">
     <div class="col-md-12">
       <div id="iframe-container" class="ratio ratio-16x9 mb-4 position-relative">
-        <!-- Original Loading Spinner -->
         <div id="loading-spinner" class="d-flex justify-content-center align-items-center position-absolute top-0 bottom-0 start-0 end-0 bg-light">
           <div class="spinner-border text-black" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        <!-- Streaming Iframe -->
         <iframe id="streaming-iframe" class="d-none" src="<%= episode.defaultStreamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
       </div>
 
-      <!-- Streaming Sources Dropdown -->
       <div class="mb-4">
         <label for="streaming-source" class="form-label">Choose Streaming Source:</label>
         <select id="streaming-source" class="form-select">
@@ -33,7 +28,6 @@
         </select>
       </div>
 
-      <!-- Episode Navigation -->
       <div class="d-flex justify-content-between mb-4">
         <% if (episode.prevEpisode) { %>
           <a href="/episode/<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">
@@ -52,12 +46,10 @@
         <% } %>
       </div>
 
-      <!-- Redesigned Download Links Section -->
       <% if (episode.standardizedDownloads) { %>
         <h3 class="mb-3">Download Links</h3>
 
         <% if (episode.standardizedDownloads.isSamehadakuFormat) { %>
-          <!-- Samehadaku format (using accordion) -->
           <div class="accordion" id="downloadAccordion">
             <% episode.standardizedDownloads.formats.forEach((format, formatIndex) => { %>
               <div class="accordion-item">
@@ -79,11 +71,9 @@
                         <tbody>
                           <% format.qualities.forEach(quality => { %>
                             <tr>
-                              <!-- Quality Badge -->
                               <td class="fw-bold">
                                 <span class="badge bg-dark fs-6"><%= quality.title %></span>
                               </td>
-                              <!-- Download Links as Buttons -->
                               <td>
                                 <div class="d-flex flex-wrap gap-2">
                                   <% quality.urls.forEach(url => { %>
@@ -104,7 +94,6 @@
             <% }) %>
           </div>
         <% } else { %>
-          <!-- Otakudesu format (simple table) -->
           <div class="table-responsive">
             <table class="table table-bordered align-middle">
               <thead class="table-dark">
@@ -117,13 +106,10 @@
               <tbody>
                 <% episode.standardizedDownloads.qualities.forEach(quality => { %>
                   <tr>
-                    <!-- Quality Badge -->
                     <td class="fw-bold">
                       <span class="badge bg-dark fs-6"><%= quality.title %></span>
                     </td>
-                    <!-- Size Badge -->
                     <td><%= quality.size || 'Unknown' %></td>
-                    <!-- Download Links as Buttons -->
                     <td>
                       <div class="d-flex flex-wrap gap-2">
                         <% quality.urls.forEach(url => { %>
@@ -150,7 +136,6 @@
 
 <%- include('partials/footer') %>
 
-<!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
   document.getElementById('streaming-source').addEventListener('change', async function() {
@@ -158,7 +143,6 @@
     const iframe = document.getElementById('streaming-iframe');
     const spinner = document.getElementById('loading-spinner');
 
-    // Show the spinner and hide the iframe
     spinner.classList.remove('d-none');
     iframe.classList.add('d-none');
 
@@ -179,7 +163,6 @@
     const spinner = document.getElementById('loading-spinner');
     const iframe = document.getElementById('streaming-iframe');
 
-    // Hide the spinner and show the iframe once loaded
     spinner.classList.add('d-none');
     iframe.classList.remove('d-none');
   });
