@@ -115,7 +115,7 @@
     const prevLi = document.createElement('li');
     prevLi.className = `page-item ${prevPage ? '' : 'disabled'}`;
     const prevLink = document.createElement('a');
-    prevLink.className = 'page-link';
+    prevLink.className = `page-link ${prevPage ? 'bg-dark text-white' : 'bg-secondary text-white'} border-dark`;
     prevLink.href = '#';
     prevLink.textContent = 'Previous';
     prevLink.addEventListener('click', () => {
@@ -128,7 +128,7 @@
       const li = document.createElement('li');
       li.className = `page-item ${i === currentPage ? 'active' : ''}`;
       const a = document.createElement('a');
-      a.className = 'page-link';
+      a.className = `page-link ${i === currentPage ? 'bg-dark text-white' : 'bg-white text-dark'} border-dark`;
       a.href = '#';
       a.textContent = i;
       a.addEventListener('click', () => {
@@ -141,7 +141,7 @@
     const nextLi = document.createElement('li');
     nextLi.className = `page-item ${nextPage ? '' : 'disabled'}`;
     const nextLink = document.createElement('a');
-    nextLink.className = 'page-link';
+    nextLink.className = `page-link ${nextPage ? 'bg-dark text-white' : 'bg-secondary text-white'} border-dark`;
     nextLink.href = '#';
     nextLink.textContent = 'Next';
     nextLink.addEventListener('click', () => {

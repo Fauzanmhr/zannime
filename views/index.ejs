@@ -22,7 +22,7 @@
   <nav aria-label="Anime list pagination" class="d-flex justify-content-center">
     <ul class="pagination">
       <li class="page-item <%= !pagination.prevPage ? 'disabled' : '' %>">
-        <a class="page-link" href="?page=<%= pagination.prevPage %>">Previous</a>
+        <a class="page-link <%= !pagination.prevPage ? 'bg-secondary text-white' : 'bg-dark text-white' %> border-dark" href="?page=<%= pagination.prevPage %>">Previous</a>
       </li>
       <%
         const maxPages = 5;
@@ -35,11 +35,11 @@
         for (let i = startPage; i <= endPage; i++) {
       %>
         <li class="page-item <%= pagination.currentPage === i ? 'active' : '' %>">
-          <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+          <a class="page-link <%= pagination.currentPage === i ? 'bg-dark text-white' : 'bg-white text-dark' %> border-dark" href="?page=<%= i %>"><%= i %></a>
         </li>
       <% } %>
       <li class="page-item <%= !pagination.nextPage ? 'disabled' : '' %>">
-        <a class="page-link" href="?page=<%= pagination.nextPage %>">Next</a>
+        <a class="page-link <%= !pagination.nextPage ? 'bg-secondary text-white' : 'bg-dark text-white' %> border-dark" href="?page=<%= pagination.nextPage %>">Next</a>
       </li>
     </ul>
   </nav>
