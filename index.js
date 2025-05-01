@@ -73,6 +73,22 @@ app.use(
   settingsRoutes,
 );
 
+// 404 error handler - must be after all routes
+app.use((req, res) => {
+  res.status(404).render('404');
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('404', { 
+    error: { 
+      status: 500, 
+      message: 'Internal server error' 
+    } 
+  });
+});
+
 app.listen(port, () =>
   console.log(`Server is running on http://localhost:${port}`),
 );
