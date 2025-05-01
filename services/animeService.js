@@ -1,51 +1,42 @@
-import ky from 'ky';
+import { makeApiRequest } from "./sourceService.js";
 
-// Function to fetch all anime data
-export const fetchAllAnimeData = async () => {
+export const fetchAllAnimeData = async (req) => {
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/anime`).json();
-    return response.data.list.flatMap(item => item.animeList);
+    const response = await makeApiRequest(req, "/anime");
+    const animeList =
+      response.data?.list?.flatMap((item) => item.animeList) || [];
+    return animeList;
   } catch (error) {
-    console.error('Error fetching all anime data:', error);
+    console.error("Error fetching all anime data:", error);
     return [];
   }
 };
 
-// Function to fetch ongoing anime
-export const fetchOngoingAnime = async (page) => {
+export const fetchOngoingAnime = async (req, page) => {
   try {
-    return await ky.get(`${process.env.API_URL}/otakudesu/ongoing?page=${page}`).json();
+    return await makeApiRequest(req, "/ongoing", { page });
   } catch (error) {
-    console.error('Error fetching ongoing anime data:', error);
+    console.error("Error fetching ongoing anime data:", error);
     return { data: [], pagination: {} };
   }
 };
 
-// Function to fetch details of a specific anime by slug
-export const fetchAnimeDetails = async (slug) => {
+export const fetchAnimeDetails = async (req, slug) => {
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/anime/${slug}`).json();
-    const anime = response.data;
-
-    // Ensure that batchId (or batch data) is included if batch data exists
-    if (anime.batch) {
-      anime.batchId = anime.batch.batchId;
-    }
-
-    return anime;
+    const response = await makeApiRequest(req, `/anime/${slug}`);
+    return response.data;
   } catch (error) {
-    console.error('Error fetching anime details:', error);
+    console.error("Error fetching anime details:", error);
     return null;
   }
 };
 
-// Function to fetch batch details by slug
-export const fetchBatchDetails = async (slug) => {
+export const fetchBatchDetails = async (req, slug) => {
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/batch/${slug}`).json();
+    const response = await makeApiRequest(req, `/batch/${slug}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching batch details:', error);
+    console.error("Error fetching batch details:", error);
     return null;
   }
 };

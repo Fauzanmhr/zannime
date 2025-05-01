@@ -1,13 +1,23 @@
-import express from 'express';
-import { getOngoingAnime, getAnimeDetails, searchAnime, getAllAnimeAjax, renderAllAnimePage, GetBatchDetails} from '../controllers/animeController.js';
+import express from "express";
+import {
+  getOngoingAnime,
+  getAnimeDetails,
+  searchAnime,
+  getAllAnimeAjax,
+  renderAllAnimePage,
+  getBatchDetails,
+} from "../controllers/animeController.js";
 
 const router = express.Router();
 
-router.get('/', getOngoingAnime);
-router.get('/anime/:slug', getAnimeDetails);
-router.get('/batch/:slug', GetBatchDetails);
-router.get('/search-ajax', searchAnime);
-router.get('/all-anime-ajax', getAllAnimeAjax);
-router.get('/all-anime', renderAllAnimePage);
+// Source-agnostic routes
+router.get("/", getOngoingAnime);
+router.get("/all-anime", renderAllAnimePage);
+router.get("/search-ajax", searchAnime);
+router.get("/all-anime-ajax", getAllAnimeAjax);
+
+// Source-specific routes
+router.get("/:source/anime/:slug", getAnimeDetails);
+router.get("/:source/batch/:slug", getBatchDetails);
 
 export default router;

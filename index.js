@@ -1,9 +1,17 @@
-import express from 'express';
-import 'dotenv/config';
-import path from 'path';
-import {fileURLToPath} from 'url';
-import { animeRoutes, genreRoutes, episodeRoutes, scheduleRoutes } from './routes/Routes.js';
-import {fetchAllAnimeData} from './services/animeService.js';
+import express from "express";
+import "dotenv/config";
+import path from "path";
+import { fileURLToPath } from "url";
+import cookieParser from "cookie-parser";
+import {
+  animeRoutes,
+  genreRoutes,
+  episodeRoutes,
+  scheduleRoutes,
+  settingsRoutes,
+} from "./routes/Routes.js";
+import { fetchAllAnimeData } from "./services/animeService.js";
+import { getCurrentSource, SOURCES } from "./services/sourceService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,34 +19,78 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  "/css",
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist/css")),
+);
+app.use(
+  "/js",
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist/js")),
+);
 
-// Serve Bootstrap files from node_modules
-app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
-app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
-app.use('/js', express.static(path.join(__dirname, 'node_modules/@popperjs/core/dist/umd')));
-
-// Fetch all anime data from API and store in memory
-const fetchAndStoreAnimeData = async () => {
-  app.locals.allAnimeData = await fetchAllAnimeData();
+app.locals.sourceData = {
+  [SOURCES.OTAKUDESU]: [],
+  [SOURCES.SAMEHADAKU]: [],
 };
 
-// Fetch data on server start
-(async () => {
-  await fetchAndStoreAnimeData();
-})();
-
-// Use routes
-app.use('/', animeRoutes, genreRoutes, episodeRoutes, scheduleRoutes);
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.use((req, res, next) => {
+  const source = getCurrentSource(req);
+  res.locals.currentSource = source;
+  req.app.locals.currentAnimeData = app.locals.sourceData[source] || [];
+  next();
 });
 
-// Periodically update all anime data (every 60 minutes)
-setInterval(fetchAndStoreAnimeData, 60 * 60 * 1000);
+const fetchAllSourcesData = async () => {
+  const otakudesuReq = { cookies: { animeSource: SOURCES.OTAKUDESU } };
+  const samehadakuReq = { cookies: { animeSource: SOURCES.SAMEHADAKU } };
+
+  const [otakudesuData, samehadakuData] = await Promise.all([
+    fetchAllAnimeData(otakudesuReq),
+    fetchAllAnimeData(samehadakuReq),
+  ]);
+
+  app.locals.sourceData[SOURCES.OTAKUDESU] = otakudesuData;
+  app.locals.sourceData[SOURCES.SAMEHADAKU] = samehadakuData;
+
+  console.log(
+    `Data loaded: ${otakudesuData.length} anime from ${SOURCES.OTAKUDESU}, ${samehadakuData.length} from ${SOURCES.SAMEHADAKU}`,
+  );
+};
+
+(async () => await fetchAllSourcesData())();
+
+app.use(
+  "/",
+  animeRoutes,
+  genreRoutes,
+  episodeRoutes,
+  scheduleRoutes,
+  settingsRoutes,
+);
+
+// 404 error handler - must be after all routes
+app.use((req, res) => {
+  res.status(404).render('404');
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('404', { 
+    error: { 
+      status: 500, 
+      message: 'Internal server error' 
+    } 
+  });
+});
+
+app.listen(port, () =>
+  console.log(`Server is running on http://localhost:${port}`),
+);
+
+setInterval(fetchAllSourcesData, 60 * 60 * 1000);

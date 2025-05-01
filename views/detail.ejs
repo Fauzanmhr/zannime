@@ -2,25 +2,20 @@
 
 <div class="container mt-5">
   <div class="row">
-    <!-- Anime Poster -->
     <div class="col-md-4">
       <div class="card shadow-sm position-relative">
-        <!-- Poster Image -->
         <img src="<%= anime.poster %>" alt="<%= anime.title %>" class="img-fluid rounded">
 
-        <!-- Score Overlay (Top Left) -->
         <div class="position-absolute top-0 start-0 p-2">
             <span class="badge text-dark bg-white fs-6"><%= anime.score %></span>
         </div>
 
-        <!-- Status Overlay (Bottom Right) -->
         <div class="position-absolute bottom-0 end-0 p-2">
             <span class="badge text-dark bg-white fs-6"><%= anime.status %></span>
         </div>
       </div>
     </div>
 
-    <!-- Anime Details -->
     <div class="col-md-8">
       <h1 class="display-4"><%= anime.title %></h1>
       <div class="my-3">
@@ -34,12 +29,11 @@
         <p><strong>Genres:</strong></p>
         <ul class="list-inline">
           <% anime.genreList.forEach(genre => { %>
-            <li class="list-inline-item"><a href="/genres/<%= genre.genreId %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
+            <li class="list-inline-item"><a href="/<%= locals.currentSource %>/genres/<%= genre.genreId %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
           <% }) %>
         </ul>
       </div>
 
-      <!-- Synopsis -->
       <div class="my-4">
         <h4>Synopsis</h4>
         <p class="text-justify"><%= anime.synopsis.paragraphs.join(' ') %></p>
@@ -47,7 +41,6 @@
     </div>
   </div>
 
-  <!-- Redesigned Batch Information Section -->
   <div class="my-4">
     <h5 class="fw-bold">Download Batch</h5>
     <div class="d-flex justify-content-between align-items-center border p-3 rounded bg-light">
@@ -76,15 +69,12 @@
               <th scope="col">Download Links</th>
             </tr>
           </thead>
-          <tbody id="downloadLinksTableBody">
-            <!-- Download links will be populated here -->
-          </tbody>
+          <tbody id="downloadLinksTableBody"></tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- Watch Episodes Section as Responsive Table -->
   <div class="my-4">
     <h5 class="fw-bold">Watch Episodes</h5>
     <div class="table-responsive">
@@ -99,12 +89,10 @@
           <% if (anime.episodeList.length > 0) { %>
             <% anime.episodeList.forEach(episode => { %>
               <tr>
-                <!-- Episode Title -->
                 <td><%= anime.title %> Episode <%= episode.title %></td>
                 
-                <!-- Centered Watch Button -->
                 <td class="text-center">
-                  <a href="/episode/<%= episode.episodeId %>" class="btn btn-dark btn-sm">
+                  <a href="/<%= locals.currentSource %>/episode/<%= episode.episodeId %>" class="btn btn-dark btn-sm">
                     <i class="bi bi-play-fill me-1"></i>Watch Now
                   </a>
                 </td>
@@ -123,27 +111,24 @@
 
 <%- include('partials/footer') %>
 
-<!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
-  document.getElementById('generateLinkBtn').addEventListener('click', function() {
+  document.getElementById('generateLinkBtn')?.addEventListener('click', function() {
     const batchId = this.getAttribute('data-batch-id');
-    fetch(`/batch/${batchId}`)
+    const currentSource = '<%= locals.currentSource %>';
+    fetch(`/${currentSource}/batch/${batchId}`)
       .then(response => response.json())
       .then(data => {
         if (data.downloadUrl && data.downloadUrl.formats) {
           const formats = data.downloadUrl.formats;
           const tableBody = document.getElementById('downloadLinksTableBody');
 
-          // Clear previous rows
           tableBody.innerHTML = '';
 
-          // Populate the table with formats and qualities
           formats.forEach(format => {
             format.qualities.forEach(quality => {
               const row = document.createElement('tr');
 
-              // Quality Badge
               const qualityCell = document.createElement('td');
               const qualityBadge = document.createElement('span');
               qualityBadge.className = 'badge bg-dark fs-6';
@@ -151,12 +136,10 @@
               qualityCell.appendChild(qualityBadge);
               row.appendChild(qualityCell);
 
-              // Size Badge
               const sizeCell = document.createElement('td');
               sizeCell.textContent = quality.size;
               row.appendChild(sizeCell);
 
-              // Download Links as Buttons
               const linksCell = document.createElement('td');
               const linksDiv = document.createElement('div');
               linksDiv.className = 'd-flex flex-wrap gap-2';

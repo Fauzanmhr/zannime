@@ -15,7 +15,7 @@
           <tr>
             <td><%= anime.title %></td>
             <td>
-              <a href="/anime/<%= anime.animeId %>" class="btn btn-dark btn-sm">View</a>
+              <a href="/<%= locals.currentSource %>/anime/<%= anime.animeId %>" class="btn btn-dark btn-sm">View</a>
             </td>
           </tr>
         <% }) %>
@@ -27,7 +27,6 @@
   </nav>
 </div>
 <%- include('partials/footer') %>
-<!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
   let currentPage = 1;
@@ -36,8 +35,6 @@
   function fetchData(query = '', page = 1) {
     const resultsContainer = document.getElementById('searchResults');
     const paginationContainer = document.getElementById('pagination');
-
-    // Update the URL with the search query
     const url = new URL(window.location);
     url.searchParams.set('q', query);
     url.searchParams.set('page', page);
@@ -88,7 +85,8 @@
 
       const tdAction = document.createElement('td');
       const viewLink = document.createElement('a');
-      viewLink.href = `/anime/${result.animeId}`;
+      const currentSource = '<%= locals.currentSource %>';
+      viewLink.href = `/${currentSource}/anime/${result.animeId}`;
       viewLink.className = 'btn btn-dark btn-sm';
       viewLink.textContent = 'View';
       tdAction.appendChild(viewLink);
@@ -117,7 +115,7 @@
     const prevLi = document.createElement('li');
     prevLi.className = `page-item ${prevPage ? '' : 'disabled'}`;
     const prevLink = document.createElement('a');
-    prevLink.className = 'page-link';
+    prevLink.className = `page-link ${prevPage ? 'bg-dark text-white' : 'bg-secondary text-white'} border-dark`;
     prevLink.href = '#';
     prevLink.textContent = 'Previous';
     prevLink.addEventListener('click', () => {
@@ -130,7 +128,7 @@
       const li = document.createElement('li');
       li.className = `page-item ${i === currentPage ? 'active' : ''}`;
       const a = document.createElement('a');
-      a.className = 'page-link';
+      a.className = `page-link ${i === currentPage ? 'bg-dark text-white' : 'bg-white text-dark'} border-dark`;
       a.href = '#';
       a.textContent = i;
       a.addEventListener('click', () => {
@@ -143,7 +141,7 @@
     const nextLi = document.createElement('li');
     nextLi.className = `page-item ${nextPage ? '' : 'disabled'}`;
     const nextLink = document.createElement('a');
-    nextLink.className = 'page-link';
+    nextLink.className = `page-link ${nextPage ? 'bg-dark text-white' : 'bg-secondary text-white'} border-dark`;
     nextLink.href = '#';
     nextLink.textContent = 'Next';
     nextLink.addEventListener('click', () => {

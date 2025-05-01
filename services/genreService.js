@@ -1,20 +1,20 @@
-import ky from 'ky';
+import { makeApiRequest } from "./sourceService.js";
 
-export const fetchGenres = async () => {
+export const fetchGenres = async (req) => {
   try {
-    const response = await ky.get(`${process.env.API_URL}/otakudesu/genres`).json();
+    const response = await makeApiRequest(req, "/genres");
     return response.data;
   } catch (error) {
-    console.error('Error fetching genres:', error);
+    console.error("Error fetching genres:", error);
     return [];
   }
 };
 
-export const fetchAnimeByGenre = async (slug, page) => {
+export const fetchAnimeByGenre = async (req, slug, page) => {
   try {
-    return await ky.get(`${process.env.API_URL}/otakudesu/genres/${slug}?page=${page}`).json();
+    return await makeApiRequest(req, `/genres/${slug}`, { page });
   } catch (error) {
-    console.error('Error fetching anime by genre:', error);
+    console.error("Error fetching anime by genre:", error);
     return { data: [], pagination: {} };
   }
 };

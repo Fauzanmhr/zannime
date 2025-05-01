@@ -1,40 +1,55 @@
-import { fetchOngoingAnime, fetchAnimeDetails, fetchBatchDetails } from '../services/animeService.js';
+import {
+  fetchOngoingAnime,
+  fetchAnimeDetails,
+  fetchBatchDetails,
+} from "../services/animeService.js";
+import { SOURCES } from "../services/sourceService.js";
 
 export const getOngoingAnime = async (req, res) => {
   const page = req.query.page || 1;
-  const result = await fetchOngoingAnime(page);
-  res.render('index', { animes: result.data, pagination: result.pagination });
+  const result = await fetchOngoingAnime(req, page);
+  res.render("index", { animes: result.data, pagination: result.pagination });
 };
 
 export const getAnimeDetails = async (req, res) => {
-  const anime = await fetchAnimeDetails(req.params.slug);
+  const { slug, source } = req.params;
+  
+  if (source && Object.values(SOURCES).includes(source)) {
+    req.cookies.animeSource = source;
+  }
+
+  const anime = await fetchAnimeDetails(req, slug);
   if (anime) {
-    res.render('detail', { anime });
+    res.render("detail", { anime });
   } else {
-    res.status(500).send('Error fetching anime details');
+    res.status(404).send("Anime not found");
   }
 };
 
+export const getBatchDetails = async (req, res) => {
+  const { slug, source } = req.params;
+  if (!slug) return res.redirect("/");
 
-export const GetBatchDetails = async (req, res) => {
-  const slug = req.params.slug;
-  if (!slug) return res.redirect('/');
+  if (source && Object.values(SOURCES).includes(source)) {
+    req.cookies.animeSource = source;
+  }
 
-  const batch = await fetchBatchDetails(slug);
+  const batch = await fetchBatchDetails(req, slug);
   if (batch) {
-    res.json(batch); // Return the entire batch details
+    res.json(batch);
   } else {
-    res.status(500).send('Error fetching batch details');
+    res.status(404).send("Batch not found");
   }
 };
-
 
 export const searchAnime = (req, res) => {
   const { q: query, page = 1, limit = 20 } = req.query;
   if (!query) return res.json({ results: [] });
 
-  const allAnimeData = req.app.locals.allAnimeData;
-  const filteredResults = allAnimeData.filter(anime => anime.title.toLowerCase().includes(query.toLowerCase()));
+  const allAnimeData = req.app.locals.currentAnimeData;
+  const filteredResults = allAnimeData.filter((anime) =>
+    anime.title.toLowerCase().includes(query.toLowerCase()),
+  );
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   const results = filteredResults.slice(startIndex, endIndex);
@@ -42,13 +57,13 @@ export const searchAnime = (req, res) => {
   res.json({
     results,
     currentPage: parseInt(page, 10),
-    totalPages: Math.ceil(filteredResults.length / limit)
+    totalPages: Math.ceil(filteredResults.length / limit),
   });
 };
 
 export const getAllAnimeAjax = (req, res) => {
   const { page = 1, limit = 20 } = req.query;
-  const allAnimeData = req.app.locals.allAnimeData;
+  const allAnimeData = req.app.locals.currentAnimeData;
 
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
@@ -57,14 +72,14 @@ export const getAllAnimeAjax = (req, res) => {
   res.json({
     results,
     currentPage: parseInt(page, 10),
-    totalPages: Math.ceil(allAnimeData.length / limit)
+    totalPages: Math.ceil(allAnimeData.length / limit),
   });
 };
 
 export const renderAllAnimePage = (req, res) => {
   const { page = 1 } = req.query;
   const limit = 20;
-  const allAnimeData = req.app.locals.allAnimeData;
+  const allAnimeData = req.app.locals.currentAnimeData;
 
   const totalAnimes = allAnimeData.length;
   const totalPages = Math.ceil(totalAnimes / limit);
@@ -76,8 +91,8 @@ export const renderAllAnimePage = (req, res) => {
     currentPage: page,
     totalPages,
     prevPage: page > 1 ? page - 1 : null,
-    nextPage: page < totalPages ? page + 1 : null
+    nextPage: page < totalPages ? page + 1 : null,
   };
 
-  res.render('all-anime', { animes: paginatedAnimes, pagination });
+  res.render("all-anime", { animes: paginatedAnimes, pagination });
 };

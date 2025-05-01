@@ -1,40 +1,36 @@
 <%- include('partials/header', { title: episode.title + ' - ZANNIME' }) %>
 
 <div class="container my-5">
-  <!-- Episode Title -->
   <h1 class="display-5 mb-4"><%= episode.title %></h1>
 
-  <!-- Streaming Player Section -->
   <div class="row">
     <div class="col-md-12">
       <div id="iframe-container" class="ratio ratio-16x9 mb-4 position-relative">
-        <!-- Original Loading Spinner -->
         <div id="loading-spinner" class="d-flex justify-content-center align-items-center position-absolute top-0 bottom-0 start-0 end-0 bg-light">
           <div class="spinner-border text-black" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        <!-- Streaming Iframe -->
         <iframe id="streaming-iframe" class="d-none" src="<%= episode.defaultStreamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
       </div>
 
-      <!-- Streaming Sources Dropdown -->
       <div class="mb-4">
         <label for="streaming-source" class="form-label">Choose Streaming Source:</label>
         <select id="streaming-source" class="form-select">
           <option value="default">Default Source</option>
-          <% episode.server.qualities.forEach(quality => { %>
-            <% quality.serverList.forEach(server => { %>
-              <option value="<%= server.serverId %>"><%= server.title %> - <%= quality.title %></option>
+          <% if (episode.server && episode.server.qualities) { %>
+            <% episode.server.qualities.forEach(quality => { %>
+              <% quality.serverList.forEach(server => { %>
+                <option value="<%= server.serverId %>"><%= server.title %> - <%= quality.title %></option>
+              <% }) %>
             <% }) %>
-          <% }) %>
+          <% } %>
         </select>
       </div>
 
-      <!-- Episode Navigation -->
       <div class="d-flex justify-content-between mb-4">
         <% if (episode.prevEpisode) { %>
-          <a href="/episode/<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">
+          <a href="/<%= locals.currentSource %>/episode/<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">
             <i class="bi bi-arrow-left me-1"></i>Previous Episode
           </a>
         <% } else { %>
@@ -42,7 +38,7 @@
         <% } %>
 
         <% if (episode.nextEpisode) { %>
-          <a href="/episode/<%= episode.nextEpisode.episodeId %>" class="btn btn-dark">
+          <a href="/<%= locals.currentSource %>/episode/<%= episode.nextEpisode.episodeId %>" class="btn btn-dark">
             Next Episode<i class="bi bi-arrow-right ms-1"></i>
           </a>
         <% } else { %>
@@ -50,48 +46,96 @@
         <% } %>
       </div>
 
-      <!-- Redesigned Download Links Section -->
-      <h3 class="mb-3">Download Links</h3>
-      <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-          <thead class="table-dark">
-            <tr>
-              <th scope="col">Quality</th>
-              <th scope="col">Size</th>
-              <th scope="col">Download Links</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% episode.downloadUrl.qualities.forEach(quality => { %>
-              <tr>
-                <!-- Quality Badge -->
-                <td class="fw-bold">
-                  <span class="badge bg-dark fs-6"><%= quality.title %></span>
-                </td>
-                <!-- Size Badge -->
-                <td><%= quality.size %></td>
-                <!-- Download Links as Buttons -->
-                <td>
-                  <div class="d-flex flex-wrap gap-2">
-                    <% quality.urls.forEach(url => { %>
-                      <a href="<%= url.url %>" target="_blank" class="btn btn-sm btn-outline-dark">
-                        <i class="bi bi-download me-1"></i><%= url.title %>
-                      </a>
-                    <% }) %>
+      <% if (episode.standardizedDownloads) { %>
+        <h3 class="mb-3">Download Links</h3>
+
+        <% if (episode.standardizedDownloads.isSamehadakuFormat) { %>
+          <div class="accordion" id="downloadAccordion">
+            <% episode.standardizedDownloads.formats.forEach((format, formatIndex) => { %>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button <%= formatIndex > 0 ? 'collapsed' : '' %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= formatIndex %>" aria-expanded="<%= formatIndex === 0 ? 'true' : 'false' %>" aria-controls="collapse<%= formatIndex %>">
+                    <%= format.title %>
+                  </button>
+                </h2>
+                <div id="collapse<%= formatIndex %>" class="accordion-collapse collapse <%= formatIndex === 0 ? 'show' : '' %>" data-bs-parent="#downloadAccordion">
+                  <div class="accordion-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered align-middle">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Quality</th>
+                            <th scope="col">Download Links</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% format.qualities.forEach(quality => { %>
+                            <tr>
+                              <td class="fw-bold">
+                                <span class="badge bg-dark fs-6"><%= quality.title %></span>
+                              </td>
+                              <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                  <% quality.urls.forEach(url => { %>
+                                    <a href="<%= url.url %>" target="_blank" class="btn btn-sm btn-outline-dark">
+                                      <i class="bi bi-download me-1"></i><%= url.title %>
+                                    </a>
+                                  <% }) %>
+                                </div>
+                              </td>
+                            </tr>
+                          <% }) %>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </td>
-              </tr>
+                </div>
+              </div>
             <% }) %>
-          </tbody>
-        </table>
-      </div>
+          </div>
+        <% } else { %>
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">Quality</th>
+                  <th scope="col">Size</th>
+                  <th scope="col">Download Links</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% episode.standardizedDownloads.qualities.forEach(quality => { %>
+                  <tr>
+                    <td class="fw-bold">
+                      <span class="badge bg-dark fs-6"><%= quality.title %></span>
+                    </td>
+                    <td><%= quality.size || 'Unknown' %></td>
+                    <td>
+                      <div class="d-flex flex-wrap gap-2">
+                        <% quality.urls.forEach(url => { %>
+                          <a href="<%= url.url %>" target="_blank" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-download me-1"></i><%= url.title %>
+                          </a>
+                        <% }) %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      <% } else { %>
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle-fill me-2"></i>Download links are not available for this episode.
+        </div>
+      <% } %>
     </div>
   </div>
 </div>
 
 <%- include('partials/footer') %>
 
-<!-- Bootstrap JS -->
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
   document.getElementById('streaming-source').addEventListener('change', async function() {
@@ -99,7 +143,6 @@
     const iframe = document.getElementById('streaming-iframe');
     const spinner = document.getElementById('loading-spinner');
 
-    // Show the spinner and hide the iframe
     spinner.classList.remove('d-none');
     iframe.classList.add('d-none');
 
@@ -120,7 +163,6 @@
     const spinner = document.getElementById('loading-spinner');
     const iframe = document.getElementById('streaming-iframe');
 
-    // Hide the spinner and show the iframe once loaded
     spinner.classList.add('d-none');
     iframe.classList.remove('d-none');
   });
