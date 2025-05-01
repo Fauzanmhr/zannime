@@ -13,7 +13,7 @@
               <strong>Latest:</strong> <%= anime.latestReleaseDate %><br>
               <strong>Aired Episodes:</strong> <%= anime.episodes %>
             </p>
-            <a href="/anime/<%= anime.animeId %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
+            <a href="/<%= locals.currentSource %>/<%= anime.animeId.includes('/') ? anime.animeId : 'anime/' + anime.animeId %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
           </div>
         </div>
       </div>

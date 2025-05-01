@@ -3,6 +3,7 @@ import {
   fetchAnimeDetails,
   fetchBatchDetails,
 } from "../services/animeService.js";
+import { SOURCES } from "../services/sourceService.js";
 
 export const getOngoingAnime = async (req, res) => {
   const page = req.query.page || 1;
@@ -11,23 +12,35 @@ export const getOngoingAnime = async (req, res) => {
 };
 
 export const getAnimeDetails = async (req, res) => {
-  const anime = await fetchAnimeDetails(req, req.params.slug);
+  const { slug, source } = req.params;
+
+  // If source is provided in URL and is valid, override the cookie
+  if (source && Object.values(SOURCES).includes(source)) {
+    req.cookies.animeSource = source;
+  }
+
+  const anime = await fetchAnimeDetails(req, slug);
   if (anime) {
     res.render("detail", { anime });
   } else {
-    res.status(500).send("Error fetching anime details");
+    res.status(404).send("Anime not found");
   }
 };
 
 export const getBatchDetails = async (req, res) => {
-  const slug = req.params.slug;
+  const { slug, source } = req.params;
   if (!slug) return res.redirect("/");
+
+  // If source is provided in URL and is valid, override the cookie
+  if (source && Object.values(SOURCES).includes(source)) {
+    req.cookies.animeSource = source;
+  }
 
   const batch = await fetchBatchDetails(req, slug);
   if (batch) {
     res.json(batch);
   } else {
-    res.status(500).send("Error fetching batch details");
+    res.status(404).send("Batch not found");
   }
 };
 

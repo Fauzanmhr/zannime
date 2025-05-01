@@ -30,7 +30,7 @@
 
       <div class="d-flex justify-content-between mb-4">
         <% if (episode.prevEpisode) { %>
-          <a href="/episode/<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">
+          <a href="/<%= locals.currentSource %>/episode/<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">
             <i class="bi bi-arrow-left me-1"></i>Previous Episode
           </a>
         <% } else { %>
@@ -38,7 +38,7 @@
         <% } %>
 
         <% if (episode.nextEpisode) { %>
-          <a href="/episode/<%= episode.nextEpisode.episodeId %>" class="btn btn-dark">
+          <a href="/<%= locals.currentSource %>/episode/<%= episode.nextEpisode.episodeId %>" class="btn btn-dark">
             Next Episode<i class="bi bi-arrow-right ms-1"></i>
           </a>
         <% } else { %>

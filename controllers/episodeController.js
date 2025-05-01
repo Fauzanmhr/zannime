@@ -5,21 +5,26 @@ import {
 import { getCurrentSource, SOURCES } from "../services/sourceService.js";
 
 export const getEpisode = async (req, res) => {
-  const episodeSlug = req.params.slug;
+  const { slug: episodeSlug, source } = req.params;
   if (!episodeSlug) return res.redirect("/");
+
+  // If source is provided in URL and is valid, override the cookie
+  if (source && Object.values(SOURCES).includes(source)) {
+    req.cookies.animeSource = source;
+  }
 
   const episode = await fetchEpisodeDetails(req, episodeSlug);
 
   if (episode) {
-    const source = getCurrentSource(req);
+    const currentSource = getCurrentSource(req);
     const normalizedEpisode = { ...episode };
 
-    if (source === SOURCES.SAMEHADAKU && episode.downloadUrl?.formats) {
+    if (currentSource === SOURCES.SAMEHADAKU && episode.downloadUrl?.formats) {
       normalizedEpisode.standardizedDownloads = {
         isSamehadakuFormat: true,
         formats: episode.downloadUrl.formats,
       };
-    } else if (source === SOURCES.OTAKUDESU && episode.downloadUrl?.qualities) {
+    } else if (currentSource === SOURCES.OTAKUDESU && episode.downloadUrl?.qualities) {
       normalizedEpisode.standardizedDownloads = {
         isSamehadakuFormat: false,
         qualities: episode.downloadUrl.qualities,
@@ -30,7 +35,7 @@ export const getEpisode = async (req, res) => {
 
     res.render("episode", { episode: normalizedEpisode });
   } else {
-    res.status(500).send("Error fetching episode details");
+    res.status(404).send("Episode not found");
   }
 };
 
