@@ -17,7 +17,6 @@ export const makeApiRequest = async (req, endpoint, params = {}) => {
   try {
     return await ky.get(url, { searchParams: params }).json();
   } catch (error) {
-    console.error(`Error fetching from ${url}:`, error);
     return { data: null, pagination: {} };
   }
 };

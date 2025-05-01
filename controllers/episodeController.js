@@ -8,7 +8,6 @@ export const getEpisode = async (req, res) => {
   const { slug: episodeSlug, source } = req.params;
   if (!episodeSlug) return res.redirect("/");
 
-  // If source is provided in URL and is valid, override the cookie
   if (source && Object.values(SOURCES).includes(source)) {
     req.cookies.animeSource = source;
   }

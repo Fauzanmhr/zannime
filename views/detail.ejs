@@ -29,7 +29,7 @@
         <p><strong>Genres:</strong></p>
         <ul class="list-inline">
           <% anime.genreList.forEach(genre => { %>
-            <li class="list-inline-item"><a href="/genres/<%= genre.genreId %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
+            <li class="list-inline-item"><a href="/<%= locals.currentSource %>/genres/<%= genre.genreId %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
           <% }) %>
         </ul>
       </div>
@@ -115,7 +115,8 @@
 <script>
   document.getElementById('generateLinkBtn')?.addEventListener('click', function() {
     const batchId = this.getAttribute('data-batch-id');
-    fetch(`/batch/${batchId}`)
+    const currentSource = '<%= locals.currentSource %>';
+    fetch(`/${currentSource}/batch/${batchId}`)
       .then(response => response.json())
       .then(data => {
         if (data.downloadUrl && data.downloadUrl.formats) {

@@ -13,8 +13,7 @@ export const getOngoingAnime = async (req, res) => {
 
 export const getAnimeDetails = async (req, res) => {
   const { slug, source } = req.params;
-
-  // If source is provided in URL and is valid, override the cookie
+  
   if (source && Object.values(SOURCES).includes(source)) {
     req.cookies.animeSource = source;
   }
@@ -31,7 +30,6 @@ export const getBatchDetails = async (req, res) => {
   const { slug, source } = req.params;
   if (!slug) return res.redirect("/");
 
-  // If source is provided in URL and is valid, override the cookie
   if (source && Object.values(SOURCES).includes(source)) {
     req.cookies.animeSource = source;
   }

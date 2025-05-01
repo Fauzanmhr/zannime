@@ -10,7 +10,6 @@ export const getAnimeByGenre = async (req, res) => {
   const { slug, source } = req.params;
   const page = req.query.page || 1;
   
-  // If source is provided in URL and is valid, override the cookie
   if (source && Object.values(SOURCES).includes(source)) {
     req.cookies.animeSource = source;
   }

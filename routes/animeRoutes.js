@@ -20,8 +20,4 @@ router.get("/all-anime-ajax", getAllAnimeAjax);
 router.get("/:source/anime/:slug", getAnimeDetails);
 router.get("/:source/batch/:slug", getBatchDetails);
 
-// Keep the old routes for backward compatibility - they'll use the cookie's source
-router.get("/anime/:slug", getAnimeDetails);
-router.get("/batch/:slug", getBatchDetails);
-
 export default router;
