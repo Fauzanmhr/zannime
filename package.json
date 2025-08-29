@@ -11,13 +11,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "bootstrap": "^5.3.5",
+    "bootstrap": "^5.3.8",
     "cookie-parser": "^1.4.7",
     "cookies-parser": "^1.2.0",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.2.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "ky": "^1.8.1"
+    "ky": "^1.9.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
