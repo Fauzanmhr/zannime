@@ -124,9 +124,9 @@
     fetch(batchPath)
       .then(response => response.json())
       .then(data => {
-        const formatGroups = data.downloadUrl?.formats || [];
-        const qualityList = data.download?.qualityList || [];
-        if (formatGroups.length > 0 || qualityList.length > 0) {
+        const formatList = data.download?.formatList || [];
+        const qualityList = formatList.flatMap(format => format.qualityList || []);
+        if (qualityList.length > 0) {
           const tableBody = document.getElementById('downloadLinksTableBody');
 
           tableBody.innerHTML = '';
@@ -167,14 +167,7 @@
               tableBody.appendChild(row);
           };
 
-          if (formatGroups.length > 0) {
-            formatGroups.forEach(format => {
-              const qualities = format.qualities || [];
-              qualities.forEach(renderQuality);
-            });
-          } else {
-            qualityList.forEach(renderQuality);
-          }
+          qualityList.forEach(renderQuality);
 
           document.getElementById('downloadOptions').style.display = 'block';
           this.disabled = true;
