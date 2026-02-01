@@ -4,6 +4,6 @@ import { getGenres, getAnimeByGenre } from "../controllers/genreController.js";
 const router = express.Router();
 
 router.get("/genres", getGenres);
-router.get("/:source/genres/:slug", getAnimeByGenre);
+router.get("/genres/:slug", getAnimeByGenre);
 
 export default router;

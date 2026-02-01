@@ -9,40 +9,42 @@
           <div class="card-body p-2 d-flex flex-column">
             <h6 class="card-title text-truncate mb-1" style="font-size: 0.9rem;"><%= anime.title %></h6>
             <p class="card-text small mb-1" style="font-size: 0.8rem;">
-              <strong>Release:</strong> <%= anime.releaseDay %><br>
-              <strong>Latest:</strong> <%= anime.latestReleaseDate %><br>
-              <strong>Aired Episodes:</strong> <%= anime.episodes %>
+              <strong>Release:</strong> <%= anime.releaseDay || '-' %><br>
+              <strong>Latest:</strong> <%= anime.latestReleaseDate || '-' %><br>
+              <strong>Aired Episodes:</strong> <%= anime.episodes || '-' %>
             </p>
-            <a href="/<%= locals.currentSource %>/<%= anime.animeId.includes('/') ? anime.animeId : 'anime/' + anime.animeId %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
+            <a href="<%= buildAnimePath(anime) %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
           </div>
         </div>
       </div>
     <% }) %>
   </div>
-  <nav aria-label="Anime list pagination" class="d-flex justify-content-center">
-    <ul class="pagination">
-      <li class="page-item <%= !pagination.prevPage ? 'disabled' : '' %>">
-        <a class="page-link <%= !pagination.prevPage ? 'bg-secondary text-white' : 'bg-dark text-white' %> border-dark" href="?page=<%= pagination.prevPage %>">Previous</a>
-      </li>
-      <%
-        const maxPages = 5;
-        const halfMax = Math.floor(maxPages / 2);
-        let startPage = Math.max(1, pagination.currentPage - halfMax);
-        let endPage = Math.min(pagination.totalPages, startPage + maxPages - 1);
-        if (endPage - startPage < maxPages - 1) {
-          startPage = Math.max(1, endPage - maxPages + 1);
-        }
-        for (let i = startPage; i <= endPage; i++) {
-      %>
-        <li class="page-item <%= pagination.currentPage === i ? 'active' : '' %>">
-          <a class="page-link <%= pagination.currentPage === i ? 'bg-dark text-white' : 'bg-white text-dark' %> border-dark" href="?page=<%= i %>"><%= i %></a>
+  <% if (pagination && pagination.totalPages > 1) { %>
+    <nav aria-label="Anime list pagination" class="d-flex justify-content-center">
+      <ul class="pagination">
+        <li class="page-item <%= !pagination.prevPage ? 'disabled' : '' %>">
+          <a class="page-link <%= !pagination.prevPage ? 'bg-secondary text-white' : 'bg-dark text-white' %> border-dark" href="?page=<%= pagination.prevPage %>">Previous</a>
         </li>
-      <% } %>
-      <li class="page-item <%= !pagination.nextPage ? 'disabled' : '' %>">
-        <a class="page-link <%= !pagination.nextPage ? 'bg-secondary text-white' : 'bg-dark text-white' %> border-dark" href="?page=<%= pagination.nextPage %>">Next</a>
-      </li>
-    </ul>
-  </nav>
+        <%
+          const maxPages = 5;
+          const halfMax = Math.floor(maxPages / 2);
+          let startPage = Math.max(1, pagination.currentPage - halfMax);
+          let endPage = Math.min(pagination.totalPages, startPage + maxPages - 1);
+          if (endPage - startPage < maxPages - 1) {
+            startPage = Math.max(1, endPage - maxPages + 1);
+          }
+          for (let i = startPage; i <= endPage; i++) {
+        %>
+          <li class="page-item <%= pagination.currentPage === i ? 'active' : '' %>">
+            <a class="page-link <%= pagination.currentPage === i ? 'bg-dark text-white' : 'bg-white text-dark' %> border-dark" href="?page=<%= i %>"><%= i %></a>
+          </li>
+        <% } %>
+        <li class="page-item <%= !pagination.nextPage ? 'disabled' : '' %>">
+          <a class="page-link <%= !pagination.nextPage ? 'bg-secondary text-white' : 'bg-dark text-white' %> border-dark" href="?page=<%= pagination.nextPage %>">Next</a>
+        </li>
+      </ul>
+    </nav>
+  <% } %>
 </div>
 <%- include('partials/footer') %>
 <script src="/js/bootstrap.bundle.min.js"></script>

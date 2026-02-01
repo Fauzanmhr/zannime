@@ -1,18 +1,9 @@
 import ky from "ky";
 
-export const SOURCES = {
-  OTAKUDESU: "otakudesu",
-  SAMEHADAKU: "samehadaku",
-};
+const API_SOURCE = "otakudesu";
 
-export const DEFAULT_SOURCE = SOURCES.OTAKUDESU;
-
-export const getCurrentSource = (req) =>
-  (req.cookies && req.cookies.animeSource) || DEFAULT_SOURCE;
-
-export const makeApiRequest = async (req, endpoint, params = {}) => {
-  const source = getCurrentSource(req);
-  const url = `${process.env.API_URL}/${source}${endpoint}`;
+export const makeApiRequest = async (endpoint, params = {}) => {
+  const url = `${process.env.API_URL}/${API_SOURCE}${endpoint}`;
 
   try {
     return await ky.get(url, { searchParams: params }).json();

@@ -3,22 +3,19 @@ import {
   fetchAnimeDetails,
   fetchBatchDetails,
 } from "../services/animeService.js";
-import { SOURCES } from "../services/sourceService.js";
 
 export const getOngoingAnime = async (req, res) => {
   const page = req.query.page || 1;
-  const result = await fetchOngoingAnime(req, page);
-  res.render("index", { animes: result.data, pagination: result.pagination });
+  const result = await fetchOngoingAnime(page);
+  res.render("index", {
+    animes: result.data,
+    pagination: result.pagination,
+  });
 };
 
 export const getAnimeDetails = async (req, res) => {
-  const { slug, source } = req.params;
-  
-  if (source && Object.values(SOURCES).includes(source)) {
-    req.cookies.animeSource = source;
-  }
-
-  const anime = await fetchAnimeDetails(req, slug);
+  const { slug } = req.params;
+  const anime = await fetchAnimeDetails(slug);
   if (anime) {
     res.render("detail", { anime });
   } else {
@@ -27,14 +24,9 @@ export const getAnimeDetails = async (req, res) => {
 };
 
 export const getBatchDetails = async (req, res) => {
-  const { slug, source } = req.params;
+  const { slug } = req.params;
   if (!slug) return res.redirect("/");
-
-  if (source && Object.values(SOURCES).includes(source)) {
-    req.cookies.animeSource = source;
-  }
-
-  const batch = await fetchBatchDetails(req, slug);
+  const batch = await fetchBatchDetails(slug);
   if (batch) {
     res.json(batch);
   } else {

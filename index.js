@@ -2,16 +2,13 @@ import express from "express";
 import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
-import cookieParser from "cookie-parser";
 import {
   animeRoutes,
   genreRoutes,
   episodeRoutes,
   scheduleRoutes,
-  settingsRoutes,
 } from "./routes/Routes.js";
 import { fetchAllAnimeData } from "./services/animeService.js";
-import { getCurrentSource, SOURCES } from "./services/sourceService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,7 +18,6 @@ const port = process.env.PORT || 3000;
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -32,34 +28,30 @@ app.use(
   "/js",
   express.static(path.join(__dirname, "node_modules/bootstrap/dist/js")),
 );
+app.use(
+  "/icons",
+  express.static(path.join(__dirname, "node_modules/bootstrap-icons/font")),
+);
 
-app.locals.sourceData = {
-  [SOURCES.OTAKUDESU]: [],
-  [SOURCES.SAMEHADAKU]: [],
-};
+app.locals.sourceData = [];
+app.locals.buildAnimePath = (anime) =>
+  anime?.animeId ? `/anime/${anime.animeId}` : "#";
+app.locals.buildEpisodePath = (episode) =>
+  episode?.episodeId ? `/episode/${episode.episodeId}` : "#";
+app.locals.buildBatchPath = (batch) =>
+  batch?.batchId ? `/batch/${batch.batchId}` : "#";
+app.locals.buildGenrePath = (genre) =>
+  genre?.genreId ? `/genres/${genre.genreId}` : "#";
 
 app.use((req, res, next) => {
-  const source = getCurrentSource(req);
-  res.locals.currentSource = source;
-  req.app.locals.currentAnimeData = app.locals.sourceData[source] || [];
+  req.app.locals.currentAnimeData = app.locals.sourceData;
   next();
 });
 
 const fetchAllSourcesData = async () => {
-  const otakudesuReq = { cookies: { animeSource: SOURCES.OTAKUDESU } };
-  const samehadakuReq = { cookies: { animeSource: SOURCES.SAMEHADAKU } };
-
-  const [otakudesuData, samehadakuData] = await Promise.all([
-    fetchAllAnimeData(otakudesuReq),
-    fetchAllAnimeData(samehadakuReq),
-  ]);
-
-  app.locals.sourceData[SOURCES.OTAKUDESU] = otakudesuData;
-  app.locals.sourceData[SOURCES.SAMEHADAKU] = samehadakuData;
-
-  console.log(
-    `Data loaded: ${otakudesuData.length} anime from ${SOURCES.OTAKUDESU}, ${samehadakuData.length} from ${SOURCES.SAMEHADAKU}`,
-  );
+  const data = await fetchAllAnimeData();
+  app.locals.sourceData = data;
+  console.log(`Data loaded: ${data.length} anime from otakudesu`);
 };
 
 (async () => await fetchAllSourcesData())();
@@ -70,7 +62,6 @@ app.use(
   genreRoutes,
   episodeRoutes,
   scheduleRoutes,
-  settingsRoutes,
 );
 
 // 404 error handler - must be after all routes

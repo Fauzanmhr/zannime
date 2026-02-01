@@ -12,14 +12,13 @@
   "description": "",
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "cookie-parser": "^1.4.7",
-    "cookies-parser": "^1.2.0",
-    "dotenv": "^17.2.1",
-    "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "ky": "^1.9.1"
+    "bootstrap-icons": "^1.13.1",
+    "dotenv": "^17.2.3",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "ky": "^1.14.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.11"
   }
 }

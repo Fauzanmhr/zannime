@@ -15,7 +15,7 @@
           <tr>
             <td><%= anime.title %></td>
             <td>
-              <a href="/<%= locals.currentSource %>/anime/<%= anime.animeId %>" class="btn btn-dark btn-sm">View</a>
+              <a href="<%= buildAnimePath(anime) %>" class="btn btn-dark btn-sm">View</a>
             </td>
           </tr>
         <% }) %>
@@ -85,8 +85,7 @@
 
       const tdAction = document.createElement('td');
       const viewLink = document.createElement('a');
-      const currentSource = '<%= locals.currentSource %>';
-      viewLink.href = `/${currentSource}/anime/${result.animeId}`;
+    viewLink.href = `/anime/${result.animeId}`;
       viewLink.className = 'btn btn-dark btn-sm';
       viewLink.textContent = 'View';
       tdAction.appendChild(viewLink);

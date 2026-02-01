@@ -7,7 +7,7 @@
         <h2 class="card-title"><%= day.day %></h2>
         <p class="card-text">
           <% day.animeList.forEach((anime) => { %>
-            <a href="/<%= locals.currentSource %>/anime/<%= anime.animeId %>" class="badge bg-dark me-1 text-decoration-none long-badge"><%= anime.title %></a>
+            <a href="<%= buildAnimePath(anime) %>" class="badge bg-dark me-1 text-decoration-none long-badge"><%= anime.title %></a>
           <% }) %>
         </p>
       </div>

@@ -11,17 +11,17 @@
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        <iframe id="streaming-iframe" class="d-none" src="<%= episode.defaultStreamingUrl %>" title="Streaming Player" allowfullscreen></iframe>
+        <iframe id="streaming-iframe" class="d-none" src="<%= episode.defaultStreamingUrl || '' %>" title="Streaming Player" allowfullscreen></iframe>
       </div>
 
       <div class="mb-4">
-        <label for="streaming-source" class="form-label">Choose Streaming Source:</label>
+        <label for="streaming-source" class="form-label">Choose Streaming Server:</label>
         <select id="streaming-source" class="form-select">
-          <option value="default">Default Source</option>
+          <option value="default">Default Server</option>
           <% if (episode.server && episode.server.qualities) { %>
             <% episode.server.qualities.forEach(quality => { %>
               <% quality.serverList.forEach(server => { %>
-                <option value="<%= server.serverId %>"><%= server.title %> - <%= quality.title %></option>
+                <option value="<%= server.serverId || server.url %>"><%= server.title %> - <%= quality.title %></option>
               <% }) %>
             <% }) %>
           <% } %>
@@ -29,16 +29,16 @@
       </div>
 
       <div class="d-flex justify-content-between mb-4">
-        <% if (episode.prevEpisode) { %>
-          <a href="/<%= locals.currentSource %>/episode/<%= episode.prevEpisode.episodeId %>" class="btn btn-dark">
+        <% if (episode.prevEpisode && episode.prevEpisode.episodeId) { %>
+          <a href="<%= buildEpisodePath(episode.prevEpisode) %>" class="btn btn-dark">
             <i class="bi bi-arrow-left me-1"></i>Previous Episode
           </a>
         <% } else { %>
           <span class="btn btn-secondary disabled">Previous Episode</span>
         <% } %>
 
-        <% if (episode.nextEpisode) { %>
-          <a href="/<%= locals.currentSource %>/episode/<%= episode.nextEpisode.episodeId %>" class="btn btn-dark">
+        <% if (episode.nextEpisode && episode.nextEpisode.episodeId) { %>
+          <a href="<%= buildEpisodePath(episode.nextEpisode) %>" class="btn btn-dark">
             Next Episode<i class="bi bi-arrow-right ms-1"></i>
           </a>
         <% } else { %>
@@ -49,7 +49,7 @@
       <% if (episode.standardizedDownloads) { %>
         <h3 class="mb-3">Download Links</h3>
 
-        <% if (episode.standardizedDownloads.isSamehadakuFormat) { %>
+        <% if (episode.standardizedDownloads.mode === 'formats') { %>
           <div class="accordion" id="downloadAccordion">
             <% episode.standardizedDownloads.formats.forEach((format, formatIndex) => { %>
               <div class="accordion-item">
@@ -93,7 +93,7 @@
               </div>
             <% }) %>
           </div>
-        <% } else { %>
+        <% } else if (episode.standardizedDownloads.mode === 'qualities') { %>
           <div class="table-responsive">
             <table class="table table-bordered align-middle">
               <thead class="table-dark">
@@ -147,14 +147,18 @@
     iframe.classList.add('d-none');
 
     if (selectedValue === "default") {
-      iframe.src = "<%= episode.defaultStreamingUrl %>";
+      iframe.src = "<%= episode.defaultStreamingUrl || '' %>";
     } else {
-      const response = await fetch(`/server-url?serverId=${selectedValue}`);
-      const data = await response.json();
-      if (data.url) {
-        iframe.src = data.url;
+      if (selectedValue.startsWith('http')) {
+        iframe.src = selectedValue;
       } else {
-        console.error('Error fetching server URL');
+        const response = await fetch(`/server-url?serverId=${selectedValue}`);
+        const data = await response.json();
+        if (data.url) {
+          iframe.src = data.url;
+        } else {
+          console.error('Error fetching server URL');
+        }
       }
     }
   });

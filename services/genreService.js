@@ -1,10 +1,15 @@
 import { makeApiRequest } from "./sourceService.js";
 
-export const fetchGenres = async (req) => {
-  const response = await makeApiRequest(req, "/genres");
-  return response.data || [];
+export const fetchGenres = async () => {
+  const response = await makeApiRequest("/genre");
+  return response.data || { genreList: [] };
 };
 
-export const fetchAnimeByGenre = async (req, slug, page) => {
-  return await makeApiRequest(req, `/genres/${slug}`, { page });
+export const fetchAnimeByGenre = async (slug, page) => {
+  const response = await makeApiRequest(`/genre/${slug}`, { page });
+  return {
+    data: { animeList: response.data?.animeList || [] },
+    pagination: response.pagination || null,
+    genreTitle: slug,
+  };
 };

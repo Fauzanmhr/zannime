@@ -19,24 +19,26 @@
     <div class="col-md-8">
       <h1 class="display-4"><%= anime.title %></h1>
       <div class="my-3">
-        <p><strong>Japanese:</strong> <%= anime.japanese %></p>
-        <p><strong>Producer:</strong> <%= anime.producers %></p>
+        <p><strong>Japanese:</strong> <%= anime.japanese || '-' %></p>
+        <p><strong>Producer:</strong> <%= anime.producers || '-' %></p>
         <p><strong>Type:</strong> <%= anime.type %></p>
         <p><strong>Total Episodes:</strong> <%= anime.episodes %></p>
         <p><strong>Duration:</strong> <%= anime.duration %></p>
         <p><strong>Release Date:</strong> <%= anime.aired %></p>
-        <p><strong>Studio:</strong> <%= anime.studios %></p>
+        <p><strong>Studio:</strong> <%= anime.studios || '-' %></p>
         <p><strong>Genres:</strong></p>
         <ul class="list-inline">
           <% anime.genreList.forEach(genre => { %>
-            <li class="list-inline-item"><a href="/<%= locals.currentSource %>/genres/<%= genre.genreId %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
+            <li class="list-inline-item"><a href="<%= buildGenrePath(genre) %>" class="btn btn-outline-dark btn-sm"><%= genre.title %></a></li>
           <% }) %>
         </ul>
       </div>
 
       <div class="my-4">
         <h4>Synopsis</h4>
-        <p class="text-justify"><%= anime.synopsis.paragraphs.join(' ') %></p>
+        <p class="text-justify">
+          <%= (anime.synopsis.paragraphs && anime.synopsis.paragraphs.length > 0) ? anime.synopsis.paragraphs.join(' ') : 'No synopsis available.' %>
+        </p>
       </div>
     </div>
   </div>
@@ -47,7 +49,7 @@
       <% if (anime.batch) { %>
         <span><%= anime.batch.title %></span>
         <% if (!anime.batch.linkGenerated) { %>
-          <button id="generateLinkBtn" class="btn btn-dark btn-sm" data-batch-id="<%= anime.batch.batchId %>">
+          <button id="generateLinkBtn" class="btn btn-dark btn-sm" data-batch-path="<%= buildBatchPath(anime.batch) %>">
             <i class="bi bi-download me-1"></i>Generate Link
           </button>
         <% } else { %>
@@ -92,7 +94,7 @@
                 <td><%= anime.title %> Episode <%= episode.title %></td>
                 
                 <td class="text-center">
-                  <a href="/<%= locals.currentSource %>/episode/<%= episode.episodeId %>" class="btn btn-dark btn-sm">
+                  <a href="<%= buildEpisodePath(episode) %>" class="btn btn-dark btn-sm">
                     <i class="bi bi-play-fill me-1"></i>Watch Now
                   </a>
                 </td>
@@ -114,19 +116,22 @@
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
   document.getElementById('generateLinkBtn')?.addEventListener('click', function() {
-    const batchId = this.getAttribute('data-batch-id');
-    const currentSource = '<%= locals.currentSource %>';
-    fetch(`/${currentSource}/batch/${batchId}`)
+    const batchPath = this.getAttribute('data-batch-path');
+    if (!batchPath || batchPath === '#') {
+      alert('Batch path is not available.');
+      return;
+    }
+    fetch(batchPath)
       .then(response => response.json())
       .then(data => {
-        if (data.downloadUrl && data.downloadUrl.formats) {
-          const formats = data.downloadUrl.formats;
+        const formatGroups = data.downloadUrl?.formats || [];
+        const qualityList = data.download?.qualityList || [];
+        if (formatGroups.length > 0 || qualityList.length > 0) {
           const tableBody = document.getElementById('downloadLinksTableBody');
 
           tableBody.innerHTML = '';
 
-          formats.forEach(format => {
-            format.qualities.forEach(quality => {
+          const renderQuality = (quality) => {
               const row = document.createElement('tr');
 
               const qualityCell = document.createElement('td');
@@ -137,14 +142,14 @@
               row.appendChild(qualityCell);
 
               const sizeCell = document.createElement('td');
-              sizeCell.textContent = quality.size;
+              sizeCell.textContent = quality.size || '-';
               row.appendChild(sizeCell);
 
               const linksCell = document.createElement('td');
               const linksDiv = document.createElement('div');
               linksDiv.className = 'd-flex flex-wrap gap-2';
 
-              quality.urls.forEach(url => {
+              (quality.urls || quality.urlList || []).forEach(url => {
                 const linkButton = document.createElement('a');
                 linkButton.href = url.url;
                 linkButton.target = '_blank';
@@ -160,8 +165,16 @@
               row.appendChild(linksCell);
 
               tableBody.appendChild(row);
+          };
+
+          if (formatGroups.length > 0) {
+            formatGroups.forEach(format => {
+              const qualities = format.qualities || [];
+              qualities.forEach(renderQuality);
             });
-          });
+          } else {
+            qualityList.forEach(renderQuality);
+          }
 
           document.getElementById('downloadOptions').style.display = 'block';
           this.disabled = true;

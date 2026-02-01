@@ -9,12 +9,12 @@
     <div class="card-body p-2 d-flex flex-column">
       <h6 class="card-title text-truncate mb-1" style="font-size: 0.9rem;"><%= anime.title %></h6>
       <p class="card-text small mb-1" style="font-size: 0.8rem;">
-        <strong>Rating:</strong> <%= anime.score %><br>
-              <strong>Studio:</strong> <%= anime.studios %><br>
-              <strong>Musim:</strong> <%= anime.season %><br>
-              <strong>Total Episodes:</strong> <%= anime.episodes %>
+        <strong>Rating:</strong> <%= anime.score || anime.highlight || '-' %><br>
+              <strong>Studio:</strong> <%= anime.studios || anime.type || '-' %><br>
+              <strong>Musim:</strong> <%= anime.season || '-' %><br>
+              <strong>Total Episodes:</strong> <%= anime.episodes || '-' %>
       </p>
-      <a href="/<%= locals.currentSource %>/anime/<%= anime.animeId %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
+      <a href="<%= buildAnimePath(anime) %>" class="btn btn-dark btn-sm w-100 mt-auto" style="font-size: 0.8rem;">View</a>
     </div>
   </div>
 </div>
