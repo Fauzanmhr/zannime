@@ -176,8 +176,9 @@
   color: #7a7a7a;
 }
 
-[data-bs-theme="dark"] .footer {
-  background-color: #1a1a1a;
+[data-bs-theme="dark"] .footer,
+[data-bs-theme="dark"] footer.bg-dark {
+  background-color: #1a1a1a !important;
   border-top: 1px solid #3a3a3a;
   color: #d0d0d0;
 }
